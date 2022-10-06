@@ -1,0 +1,10 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 00.00 Supertask (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"00.01 Zip file input Satellite",TASK,N
+1,"1.0 Input Data",TASK,N
+2,"2.0 Input Adjustments",TASK,N
+3,"3.0 Input Pattern",TASK,N
+4,"4.0 Main Processing",TASK,N
+5,"5.0 Output Unbal Inventories",TASK,N

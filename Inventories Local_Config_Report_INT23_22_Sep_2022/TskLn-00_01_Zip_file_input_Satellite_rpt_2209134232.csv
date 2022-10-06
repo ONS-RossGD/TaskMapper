@@ -1,0 +1,19 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 00.01 Zip file input Satellite (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"00.021 Stock Holding Periods",TIMESERIES IMPORT DEFINITION,N
+1,"00.022 Industry 84 deflator",TIMESERIES IMPORT DEFINITION,N
+2,"00.023 Industry 46 deflator",TIMESERIES IMPORT DEFINITION,N
+3,"00.101 Sector Breakdown",TIMESERIES IMPORT DEFINITION,N
+4,"3.2.1 Pattern Sector Industry",TIMESERIES IMPORT DEFINITION,N
+5,"2.2.5 Adjustment AQ for Pre SUT",TIMESERIES IMPORT DEFINITION,N
+6,"2.2.6 Adjustment A4.2 Balanced",TIMESERIES IMPORT DEFINITION,N
+7,"00.080 Product Pattern Input",TIMESERIES IMPORT DEFINITION,N
+8,"00.091 Product breakdown",TIMESERIES IMPORT DEFINITION,N
+9,"03.102 Input A1.2 Adjustments",TIMESERIES IMPORT DEFINITION,N
+10,"2.2.7 Adjustment A5.2 Balanced",TIMESERIES IMPORT DEFINITION,N
+11,"2.2.8 Adjustment RP data",TIMESERIES IMPORT DEFINITION,N
+12,"05.00 Deflator adjustments",TIMESERIES IMPORT DEFINITION,N
+13,"07.00 SU Qual Adj",TIMESERIES IMPORT DEFINITION,N
+14,"Flags task",TASK,N

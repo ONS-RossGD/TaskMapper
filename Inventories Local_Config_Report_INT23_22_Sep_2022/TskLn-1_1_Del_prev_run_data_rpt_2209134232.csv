@@ -1,0 +1,7 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 1.1 Del prev run data (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"1.1.1 Del previous data",CALCULATION DEFINITION,N
+1,"1.1.2 Del previous data",CALCULATION DEFINITION,N
+2,"1.1.3 Del previous data",CALCULATION DEFINITION,N

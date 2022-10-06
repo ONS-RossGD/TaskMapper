@@ -1,0 +1,7 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.3.2 Calculate ABI Adjustment (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"4.3.2.1 Agg QSI to Annual",CALCULATION DEFINITION,N
+1,"4.3.2.2 Agg QSI to Ind TOTAL",CALCULATION DEFINITION,N
+2,"4.3.2.3 Agg QSI to Asset AN.12",CALCULATION DEFINITION,N

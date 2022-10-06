@@ -1,0 +1,5 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 5.11 Copy Unbal Inv data 05.00 (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"5.11.1 Copy UWDEF DEF for Unbal",CALCULATION DEFINITION,N

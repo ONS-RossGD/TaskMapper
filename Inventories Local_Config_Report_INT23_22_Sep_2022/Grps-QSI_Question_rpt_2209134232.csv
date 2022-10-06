@@ -1,0 +1,7 @@
+"Classification Item Groups Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Classification: QSI Question"
+
+Number,Name,Description,
+1,"AN Output","Inventories AN assets output for Satellite 01.00"
+2,"AN Output inc AN.125 exc 123.OTH","Inventories AN assets (inclusing AN.125 but excluding AN.123.OTHER) output for Satellite 01.00"
+3,"Bottom Level","Bottom Level"

@@ -1,0 +1,18 @@
+"Classification Items in Group Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Classification: Asset Expanded    Group: AN.123 exc SILVER"
+
+Code,Description,Table Header
+AN.123.ALUM,"Finished Goods - Aluminium","AN.123.ALUM"
+AN.123.BEEF,"Finished Goods - Beef","AN.123.BEEF"
+AN.123.BREAD,"Finished Goods - Bread","AN.123.BREAD"
+AN.123.BUTTER,"Finished Goods - Butter","AN.123.BUTTER"
+AN.123.COPPER,"Finished Goods - Copper","AN.123.COPPER"
+AN.123.DW,"Finished Goods - Dwellings","AN.123.DW"
+AN.123.FEED,"Finished Goods - Feed","AN.123.FEED"
+AN.123.LEAD,"Finished Goods - Lead","AN.123.LEAD"
+AN.123.MILK,"Finished Goods - Milk","AN.123.MILK"
+AN.123.ND,"Finished Goods - Non Dwellings","AN.123.ND"
+AN.123.NICKEL,"Finished Goods - Nickel","AN.123.NICKEL"
+AN.123.TIN,"Finished Goods - Tin","AN.123.TIN"
+AN.123.ZINC,"Finished Goods - Zinc","AN.123.ZINC"
+AN.123.OTHER,"Finished Goods - Other (NES)","AN.123.OTHER"

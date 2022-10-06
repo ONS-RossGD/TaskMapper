@@ -1,0 +1,9 @@
+"Classification Item Groups Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Classification: Asset Expanded"
+
+Number,Name,Description,
+1,"AN.123 exc SILVER","all bottom level AN.123 codes excluding AN.123.SILVER"
+2,"Bottom level","AN Bottom level"
+3,"Main","The five main lower level assets - AN.121, 122, 123, 124, 125"
+4,"Other","AN.121 to AN.125 .Other"
+5,"Product Bottom level","Product Bottom level"

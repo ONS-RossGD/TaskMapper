@@ -1,0 +1,7 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.3.1 Input ABI Adjustment Data (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"4.3.1.1 Copy Data ABI Missing",CALCULATION DEFINITION,N
+1,"4.3.1.2 Copy Adjustment A1.2 ABI",CALCULATION DEFINITION,N
+2,"t4.3.1.3 Copy QSI quarterly data",CALCULATION DEFINITION,N

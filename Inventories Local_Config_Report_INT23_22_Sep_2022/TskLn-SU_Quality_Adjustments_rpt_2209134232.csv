@@ -1,0 +1,7 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: SU Quality Adjustments (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"2.2.5 Adjustment AQ for Pre SUT",TIMESERIES IMPORT DEFINITION,N
+1,"90.040a Delete Completed",CALCULATION DEFINITION,N
+2,"90.040b Copy 00.040 to Completed",CALCULATION DEFINITION,N

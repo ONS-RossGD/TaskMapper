@@ -1,0 +1,6 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.4 Process A5.2 Aggregation (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"4.4.1 Input Adjustment & RP Data",TASK,N
+1,"4.4.2 Perform Aggregations A5.2",TASK,N

@@ -1,0 +1,10 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 1.2 Import Data (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"1.2.1 Data - QSI",TIMESERIES IMPORT DEFINITION,N
+1,"1.2.2 Data - QSI",TIMESERIES IMPORT DEFINITION,N
+2,"1.2.3 Data - Non-QSI",TIMESERIES IMPORT DEFINITION,N
+3,"1.2.4 Data - Non-QSI",TIMESERIES IMPORT DEFINITION,N
+4,"1.2.5 Data - ABI Missing",TIMESERIES IMPORT DEFINITION,N
+5,"1.2.6 Data - DEFRA",TIMESERIES IMPORT DEFINITION,N

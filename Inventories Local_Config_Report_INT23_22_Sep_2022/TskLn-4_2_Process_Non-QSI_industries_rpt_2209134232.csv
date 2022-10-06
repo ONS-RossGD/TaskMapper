@@ -1,0 +1,6 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.2 Process Non-QSI industries (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"4.2.1 Input Non-QSI Data",TASK,N
+1,"4.2.2 Calculate Non-QSI Ind",TASK,N

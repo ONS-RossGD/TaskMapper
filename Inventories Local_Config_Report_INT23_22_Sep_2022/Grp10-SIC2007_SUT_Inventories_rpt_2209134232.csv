@@ -1,0 +1,14 @@
+"Classification Items in Group Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Classification: SIC2007 SUT Inventories    Group: x QSI Industries"
+
+Code,Description,Table Header
+10.1,"Processing and preserving of meat and production of meat products","10.1"
+10.4,"Manufacture of vegetable and animal oils and fats","10.4"
+10.6,"Manufacture of grain mill products, starches and starch products","10.6"
+10.7,"Manufacture of bakery and farinaceous products","10.7"
+10.8,"Manufacture of other food products","10.8"
+10.9,"Manufacture of prepared animal feeds","10.9"
+11.01-6,"Manufacture of alcoholic beverages","11.01-6"
+24.1-3,"Manufacture of basic iron and steel","24.1-3"
+55,"Accommodation  ","55"
+56,"Food And Beverage Service Activities  ","56"

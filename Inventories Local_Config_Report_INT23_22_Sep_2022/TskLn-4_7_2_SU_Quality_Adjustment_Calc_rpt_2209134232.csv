@@ -1,0 +1,5 @@
+"Task Lines Report    Date: 22/09/2022 13:42:32"
+"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.7.2 SU Quality Adjustment Calc (Not Parallel)"
+
+Order No.,Name,Type,Is Line Parallel
+0,"4.7.2.1 Wip to completed",CALCULATION DEFINITION,N
