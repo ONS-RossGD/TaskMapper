@@ -1,0 +1,268 @@
+##
+## Example CSV import. Use ## for comments and # for configuration. Paste CSV below.
+## The following names are reserved and should not be used (or ignored):
+## id, tooltip, placeholder(s), link and label (see below)
+##
+#
+## Node label with placeholders and HTML.
+## Default is '%name_of_first_column%'.
+#
+# label: %name%<i style="color:gray;">%info%</i><br>
+#
+## Node style (placeholders are replaced once).
+## Default is the current style for nodes.
+#
+# style: label;whiteSpace=wrap;html=1;
+#
+## Parent style for nodes with child nodes (placeholders are replaced once).
+#
+# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;
+#
+## Optional column name that contains a reference to a named style in styles.
+## Default is the current style for nodes.
+#
+# stylename: style_type
+#
+## JSON for named styles of the form {"name": "style", "name": "style"} where style is a cell style with
+## placeholders that are replaced once.
+#
+# styles: {"import": "shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000000;","delete": "rounded=1;whiteSpace=wrap;html=1;strokeColor=#FF9999;","copy": "rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;","formula": "shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeColor=#000000;","aggregate": "shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeColor=#000000;","prorate": "shape=document;whiteSpace=wrap;html=1;boundedLbl=1;strokeColor=#000000;","sa": "swimlane;strokeColor=#000000;container=1;html=1;","dataset": "swimlane;horizontal=0;container=1;strokeColor=#000000;html=1;"}
+#
+## JSON for variables in styles of the form {"name": "value", "name": "value"} where name is a string
+## that will replace a placeholder in a style.
+#
+# vars: -
+#
+## Optional column name that contains a reference to a named label in labels.
+## Default is the current label.
+#
+# labelname: -
+#
+## JSON for named labels of the form {"name": "label", "name": "label"} where label is a cell label with
+## placeholders.
+#
+# labels: -
+#
+## Uses the given column name as the identity for cells (updates existing cells).
+## Default is no identity (empty value or -).
+#
+# identity: id
+#
+## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).
+## The identity above is used for resolving the reference so it must be specified.
+#
+# parent: -
+#
+## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose
+## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).
+## Default is csvimport-.
+#
+# namespace: csvimport-
+#
+## Connections between rows ("from": source colum, "to": target column).
+## Label, style and invert are optional. Defaults are '', current style and false.
+## If placeholders are used in the style, they are replaced with data from the source.
+## An optional placeholders can be set to target to use data from the target instead.
+## In addition to label, an optional fromlabel and tolabel can be used to name the column
+## that contains the text for the label in the edges source or target (invert ignored).
+## In addition to those, an optional source and targetlabel can be used to specify a label
+## that contains placeholders referencing the respective columns in the source or target row.
+## The label is created in the form fromlabel + sourcelabel + label + tolabel + targetlabel.
+## Additional labels can be added by using an optional labels array with entries of the
+## form {"label": string, "x": number, "y": number, "dx": number, "dy": number} where
+## x is from -1 to 1 along the edge, y is orthogonal, and dx/dy are offsets in pixels.
+## An optional placeholders with the string value "source" or "target" can be specified
+## to replace placeholders in the additional label with data from the source or target.
+## The target column may contain a comma-separated list of values.
+## Multiple connect entries are allowed.
+#
+# connect: {"from": "links", "to": "id", "style": "curved=1;fontSize=11;"}
+#
+## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will
+## override this value.
+#
+# left: 
+#
+## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will
+## override this value.
+#
+# top: 
+#
+## Node width. Possible value is a number (in px), auto or an @ sign followed by a column
+## name that contains the value for the width. Default is auto.
+#
+# width: auto
+#
+## Node height. Possible value is a number (in px), auto or an @ sign followed by a column
+## name that contains the value for the height. Default is auto.
+#
+# height: auto
+#
+## Padding for autosize. Default is 0.
+#
+# padding: 10
+#
+## Comma-separated list of ignored columns for metadata. (These can be
+## used for connections and styles but will not be added as metadata.)
+#
+# ignore: id,image,fill,stroke,refs,manager
+#
+## Column to be renamed to link attribute (used as link).
+#
+# link: url
+#
+## Spacing between nodes. Default is 40.
+#
+# nodespacing: 40
+#
+## Spacing between levels of hierarchical layouts. Default is 100.
+#
+# levelspacing: 100
+#
+## Spacing between parallel edges. Default is 40. Use 0 to disable.
+#
+# edgespacing: 40
+#
+## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,
+## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.
+## Default is auto.
+#
+# layout: verticalflow
+#
+## ---- CSV below this line. First line are column names. ----
+id,name,info,par,shape,links,style_type
+sa,Inventories Local,,-,,,sa
+d0,1.3  Input ABI,,Inventories Local,,73,dataset
+d1,2.2 Input Adjustment NonQSI A1.2,,Inventories Local,,59,dataset
+d2,4.7 Process SU Qual Adjustments,,Inventories Local,,"109,140",dataset
+d3,2.3 Input Adjustment ABI A1.2,,Inventories Local,,74,dataset
+d4,00.100 Sector Breakdown,,Inventories Local,,,dataset
+d5,05.00 Deflator adjustments,,Inventories Local,,152,dataset
+d6,4.1 Process QSI Industries,,Inventories Local,,,dataset
+d7,5.1 Output Unbalanced Invent,,Inventories Local,,,dataset
+d8,4.5 Process DEFRA Delivery,,Inventories Local,,"134,135,136",dataset
+d9,4.6 Process Ind Sector Pattern,,Inventories Local,,"138,157",dataset
+d10,2.5 Input Satellite Adjustments,,Inventories Local,,82,dataset
+d11,2.1 Input Adjustment QSI A1.2,,Inventories Local,,,dataset
+d12,2.4 Input Adjustment SU Quality,,Inventories Local,,107,dataset
+d13,1.4 Input DEFRA,,Inventories Local,,89,dataset
+d14,TEMP Legacy QSI,,Inventories Local,,"75,121,122",dataset
+d15,1.2 Input Non-QSI,,Inventories Local,,58,dataset
+d16,1.1 Input QSI,,Inventories Local,,,dataset
+d17,3.1 Input Sector Ind Pattern,,Inventories Local,,104,dataset
+d18,4.2 Process Non-QSI Industries,,Inventories Local,,"70,124,125,126",dataset
+d19,00.080 Product Pattern Input,,Inventories Local,,"145,146",dataset
+d20,4.4 Process Satellite Adjustment,,Inventories Local,,"131,132,156",dataset
+d21,00.090 Product Breakdown,,Inventories Local,,"148,149,150",dataset
+d22,4.3 Process ABI Adjustment,,Inventories Local,,"128,129",dataset
+d23,00.020 Stock Holding Period,,Inventories Local,,"142,143",dataset
+2,00.021 Stock Holding Periods,<br>00.021 Stock Holding Periods.csv,Inventories Local,,d23,import
+3,00.022 Industry 84 deflator,<br>00.022 Industry 84 deflator.csv,Inventories Local,,d23,import
+4,00.023 Industry 46 deflator,<br>00.023 Industry 46 deflator.csv,Inventories Local,,d23,import
+5,00.101 Sector Breakdown,<br>00.101 Sector breakdown.csv,Inventories Local,,d4,import
+6,3.2.1 Pattern Sector Industry,<br>00.201 Sector Industry pattern.csv,Inventories Local,,d17,import
+7,2.2.5 Adjustment AQ for Pre SUT,<br>Adj AQ for Pre SUT.csv,Inventories Local,,d10,import
+8,2.2.6 Adjustment A4.2 Balanced,<br>A4.2 Adjusts for Balanced.csv,Inventories Local,,d10,import
+9,00.080 Product Pattern Input,<br>Product Pattern.csv<br>A01 Adjustments.csv,Inventories Local,,d19,import
+10,00.091 Product breakdown,<br>PRODUCT BREAKDOWN.csv,Inventories Local,,d21,import
+11,03.102 Input A1.2 Adjustments,<br>03.102 Input A1.2 Adjustments.csv,Inventories Local,,d22,import
+12,2.2.7 Adjustment A5.2 Balanced,<br>A5.2 Adjusts for Balanced.csv,Inventories Local,,d10,import
+13,2.2.8 Adjustment RP data,<br>RP data.csv,Inventories Local,,d10,import
+14,05.00 Deflator adjustments,<br>05.00 Deflator adjustments.csv,Inventories Local,,d5,import
+15,07.00 SU Qual Adj,<br>07.00 SU Qual Adj.csv,Inventories Local,,d2,import
+17,00.020 Deflator FLAGS,<br>flags import.csv,Inventories Local,,d23,import
+20,1.1.1 Del previous data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *,1.2 Input Non-QSI,,,delete
+21,1.1.2 Del previous data,<br>Industry = *<br>Asset = *<br>Adjustment Basis = *<br>Source = *<br>Periodicity = *,1.3  Input ABI,,,delete
+22,1.1.3 Del previous data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *<br>Adjustments = *,1.4 Input DEFRA,,,delete
+24,1.2.1 Data - QSI,<br>01.101A input QSI .csv<br>01.101B input QSI .csv<br>01.102 input Industry 61 data.csv<br>01.103 input QSI .65 66 84 data.csv<br>01.104 input QSI 02 03 06 data.csv,Inventories Local,,d16,import
+25,1.2.2 Data - QSI,<br>QST: Quarterly Stocks Inquiry,Inventories Local,,d16,import
+26,1.2.3 Data - Non-QSI,<br>02.101 input SLEVEL data.csv<br>02.102 input Industry 01 data.csv<br>02.103 input Industry 06 data.csv<br>02.104 Input Industry 46 65 data.csv<br>02.106 Input Ind 84 RPA data.csv,Inventories Local,,d15,import
+27,1.2.4 Data - Non-QSI,<br>02.109 input Asset AN.124 data.csv,Inventories Local,,d15,import
+28,1.2.5 Data - ABI Missing,<br>03.101A ABI MISSING data 1997.csv<br>03.101B ABI MISSING data 1998.csv<br>03.101C ABI MISSING data 1999.csv<br>03.101D ABI MISSING data 2000.csv,Inventories Local,,d0,import
+29,1.2.6 Data - DEFRA,<br>DEFRA Crops and Stores Proportion.csv<br>DEFRA Book Value Change Data.csv<br>DEFRA Book Value Data 1996.csv,Inventories Local,,d13,import
+31,2.1.1 Del 2.1 prev run data,<br>QSI Industry = *<br>QSI Question = *<br>Measure = *,2.1 Input Adjustment QSI A1.2,,,delete
+32,2.1.2 Del 2.2 prev run data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *,2.2 Input Adjustment NonQSI A1.2,,,delete
+33,2.1.3 Del 2.3 prev run data,<br>Industry = *<br>Asset = *<br>Adjustment Basis = *<br>Source = *<br>Periodicity = *,2.3 Input Adjustment ABI A1.2,,,delete
+34,2.1.4 Del 2.4 prev run data,<br>Industry = *<br>Asset = *<br>Product = *<br>Price = *<br>Adjustment Basis = *,2.4 Input Adjustment SU Quality,,,delete
+35,2.1.5 Del 2.5 data prev run,<br>Industry = *<br>Asset = *<br>Product = *<br>Sector = *<br>Price = *<br>Adjustment Basis = *<br>Seasonal Adjustment = *<br>Periodicity = *,2.5 Input Satellite Adjustments,,,delete
+36,2.2.1 Adjustment - A1.2 QSI,<br>01.105 input adjustment A1.2.csv,Inventories Local,,d11,import
+37,2.2.2 Adjustment - A1.2 Non-QSI,<br>02.108 input adjustment A1.2.csv,Inventories Local,,d1,import
+38,2.2.3 Adjustment - A1.2 ABI,<br>03.102 Input A1.2 Adjustments.csv,Inventories Local,,d3,import
+39,2.2.4 Adjustment - SU Quality,<br>07.00 SU Qual Adj.csv,Inventories Local,,d12,import
+40,2.2.5 Adjustment AQ for Pre SUT,<br>Adj AQ for Pre SUT.csv,Inventories Local,,d10,import
+41,2.2.6 Adjustment A4.2 Balanced,<br>A4.2 Adjusts for Balanced.csv,Inventories Local,,d10,import
+42,2.2.7 Adjustment A5.2 Balanced,<br>A5.2 Adjusts for Balanced.csv,Inventories Local,,d10,import
+43,2.2.8 Adjustment RP data,<br>RP data.csv,Inventories Local,,d10,import
+45,3.1.1 Del 3.1 prev run data,<br>Industry = *<br>Sector = *<br>Measure = *,3.1 Input Sector Ind Pattern,,,delete
+46,3.2.1 Pattern Sector Industry,<br>00.201 Sector Industry pattern.csv,Inventories Local,,d17,import
+49,4.0.1.1 Del 4.1 Processing Data,<br>QSI Industry = *<br>QSI Question = *<br>Measure = *,4.1 Process QSI Industries,,,delete
+50,4.0.1.2 Del 4.2 Processing Data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *,4.2 Process Non-QSI Industries,,61,delete
+51,4.0.1.3 Del 4.3 Processing Data,<br>Industry = *<br>Asset = *<br>Adjustment Basis = *<br>Source = *<br>Periodicity = *,4.3 Process ABI Adjustment,,77,delete
+52,4.0.1.4 Del 4.4 Processing Data,<br>Industry = *<br>Asset = *<br>Sector = *<br>Price = *<br>Adjustment Basis = *<br>Seasonal Adjustment = *<br>Periodicity = *<br>Product = *,4.4 Process Satellite Adjustment,,84,delete
+53,4.0.1.5 Del 4.5 Processing Data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *<br>Adjustments = *,4.5 Process DEFRA Delivery,,91,delete
+54,4.0.1.6 Del 4.6 Processing Data,<br>Industry = *<br>Sector = *<br>Measure = *,4.6 Process Ind Sector Pattern,,155,delete
+55,4.0.1.7 Del 4.7 Processing Data,<br>Industry = *<br>Asset = *<br>Product = *<br>Price = *<br>Adjustment Basis = *,4.7 Process SU Qual Adjustments,,,delete
+58,4.2.1.1 Copy Data Non-QSI Ind,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *,Inventories Local,,d18,copy
+59,4.2.1.2 Copy Adj Non-QSI A1.2,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *,Inventories Local,,d18,copy
+61,4.2.2.1 Calc 64 OTHER BVC A,"<br>Items Calculated: [Periodicity: A]<br>Formula: aggregate (Q, A, total)",4.2 Process Non-QSI Industries,,62,formula
+62,4.2.2.2 Calc 01 06 OTHER BVC Q,"<br>Items Calculated: [Periodicity: Q]<br>Formula: round(spline (A, Q, total, $enddate),0)",4.2 Process Non-QSI Industries,,63,formula
+63,4.2.2.3 Calc 01 06 64 OTHER BV Q,"<br>Items Calculated: [Measure: BV, Periodicity: Q]<br>Formula: conround(cumsum (BVC:Q, value (SLEVEL:A, $slevelyear), $slevelqtr),0)",4.2 Process Non-QSI Industries,,64,formula
+64,4.2.2.4 Calculate 46 65 84 BV,"<br>Items Calculated: [Measure: BV]<br>Formula: round (PLEVEL * PRICE, 0)",4.2 Process Non-QSI Industries,,65,formula
+65,4.2.2.5 Agg Assets to AN.12,<br>aggregate dimension: Asset<br>top level specification: AN.12,4.2 Process Non-QSI Industries,,66,aggregate
+66,4.2.2.6 Agg PROP to Asset AN.12,<br>aggregate dimension: Asset<br>top level specification: AN.12,4.2 Process Non-QSI Industries,,67,aggregate
+67,4.2.2.7 Prorate from Asset AN.12,<br>measure dimension: Measure<br>hierarchy dimension: Asset<br>prorate item: BV<br>pattern item: PROP<br>top level specification: AN.12,4.2 Process Non-QSI Industries,,68,prorate
+68,4.2.2.8 Extend A1.2 to end date,"<br>Items Calculated: [Periodicity: Q]<br>Formula: shape( Q, 1996q4, $enddate, zero)",4.2 Process Non-QSI Industries,,69,formula
+69,4.2.2.9 Calc measure OUTPUT,"<br>Items Calculated: [Measure: OUTPUT]<br>Formula: round( BV + A1.2, 0)",4.2 Process Non-QSI Industries,,,formula
+70,"4.2.2.10 Form Ind 46, AN.125",<br>Industry = 46<br>Asset = AN.123<br>Measure = OUTPUT<br>Periodicity = Q,Inventories Local,,d18,copy
+73,4.3.1.1 Copy Data ABI Missing,<br>Industry = *<br>Asset = *<br>Adjustment Basis = *<br>Source = *<br>Periodicity = *,Inventories Local,,d22,copy
+74,4.3.1.2 Copy Adjustment A1.2 ABI,<br>Industry = *<br>Asset = *<br>Adjustment Basis = *<br>Source = *<br>Periodicity = *,Inventories Local,,d22,copy
+75,t4.3.1.3 Copy QSI quarterly data,"<br>QSI Industry = group SUT Bottom level<br>QSI Question = AN.121.OTHER, AN.122.OTHER, AN.123.OTHER<br>Measure = OUTPUT",Inventories Local,,d22,copy
+77,4.3.2.1 Agg QSI to Annual,"<br>Items Calculated: [Periodicity: A]<br>Formula: Aggregate ( Q, A, end )",4.3 Process ABI Adjustment,,78,formula
+78,4.3.2.2 Agg QSI to Ind TOTAL,<br>aggregate dimension: Industry<br>top level specification: TOTAL,4.3 Process ABI Adjustment,,79,aggregate
+79,4.3.2.3 Agg QSI to Asset AN.12,<br>aggregate dimension: Asset<br>top level specification: AN.12,4.3 Process ABI Adjustment,,,aggregate
+82,4.4.1.1 Copy Adjustment and RP,<br>Industry = *<br>Asset = *<br>Product = *<br>Sector = *<br>Price = *<br>Adjustment Basis = *<br>Seasonal Adjustment = *<br>Periodicity = *,Inventories Local,,d20,copy
+84,4.4.2.1 Agg A5.2 up Industries,<br>aggregate dimension: Industry<br>top level specification: TOTAL,4.4 Process Satellite Adjustment,,85,aggregate
+85,4.4.2.2 Agg A5.2 up Asset,<br>aggregate dimension: Asset<br>top level specification: AN.12,4.4 Process Satellite Adjustment,,86,aggregate
+86,4.4.2.3 Agg A5.2 up Sector,<br>aggregate dimension: Sector<br>top level specification: ST,4.4 Process Satellite Adjustment,,154,aggregate
+89,4.5.1.1 Copy DEFRA Data,<br>Industry = *<br>Asset = *<br>Measure = *<br>Periodicity = *<br>Adjustments = *,Inventories Local,,d8,copy
+91,4.5.2.1 DF Calc AN.121_AN.123 BV,"<br>Items Calculated: [Asset: AN.121_AN.123, Measure: BVC, Adjustments: R1.2]<br>Formula: AN.123:BVC:R0 / AN.12:pattern:R0",4.5 Process DEFRA Delivery,,92,formula
+92,4.5.2.2 DF Calc AN.121 BVC,"<br>Items Calculated: [Asset: AN.121, Measure: BVC, Adjustments: R1.2]<br>Formula: AN.121_AN.123:BVC:R1.2*(1-AN.12:pattern:R0)",4.5 Process DEFRA Delivery,,93,formula
+93,4.5.2.3 DF Calc AN.121_AN.123 BV,"<br>Items Calculated: [Asset: AN.121_AN.123, Measure: BV, Adjustments: R1.2]<br>Formula: AN.123:BV:R0 / AN.12:pattern:R0",4.5 Process DEFRA Delivery,,94,formula
+94,4.5.2.4 DF Calc AN.121 BV,"<br>Items Calculated: [Asset: AN.121, Measure: BV, Adjustments: R1.2]<br>Formula: AN.121_AN.123:BV:R1.2*(1-AN.12:pattern:R0)",4.5 Process DEFRA Delivery,,95,formula
+95,4.5.2.5 DF Create Q4 for 96,"<br>Items Calculated: [Periodicity: Q]<br>Formula: SPREAD(A, Q, END, 1996Q4)",4.5 Process DEFRA Delivery,,96,formula
+96,4.5.2.6 DF Forecast R0 endyear,"<br>Items Calculated: [Adjustments: RF]<br>Formula: FORECAST(R0,$endyear)",4.5 Process DEFRA Delivery,,97,formula
+97,4.5.2.7 DF Forecast R1.2 endyear,"<br>Items Calculated: [Adjustments: RF]<br>Formula: FORECAST(R1.2,$endyear)",4.5 Process DEFRA Delivery,,98,formula
+98,4.5.2.8 DF Spline to Q,"<br>Items Calculated: [Periodicity: Q]<br>Formula: spline(A,Q,total,$enddate)",4.5 Process DEFRA Delivery,,99,formula
+99,4.5.2.9 DF Set BVC to R1.2,<br>Items Calculated: [Adjustments: R1.2]<br>Formula: RF,4.5 Process DEFRA Delivery,,100,formula
+100,4.5.2.10 DF Set BV to R1.2,<br>Items Calculated: [Adjustments: R1.2]<br>Formula: R0,4.5 Process DEFRA Delivery,,101,formula
+101,4.5.2.11 DF Create BV timeseries,"<br>Items Calculated: [Measure: BV]<br>Formula: round(cumsum(BVC, value(BV, 1996), 1996),0)",4.5 Process DEFRA Delivery,,,formula
+104,4.6.1.1 Copy Sector Pattern Data,<br>Industry = *<br>Sector = *<br>Measure = *,Inventories Local,,d9,copy
+107,4.7.1.1 Copy Quality Adjust SU,<br>Industry = *<br>Asset = *<br>Product = *<br>Price = *<br>Adjustment Basis = *,Inventories Local,,d2,copy
+109,4.7.2.1 Wip to completed,<br>Industry = *<br>Asset = *<br>Product = *<br>Price = *<br>Adjustment Basis = *,Inventories Local,,d2,copy
+119,5.0.1.1 Delete prev task data,<br>Industry = *<br>Product = *<br>Asset = *<br>Sector = *<br>Measure = *<br>Source = *<br>Adjustment Basis = *<br>Price = *<br>Periodicity = *,5.1 Output Unbalanced Invent,,,delete
+121,t5.1.1 Copy BV QSI for Unbal Inv,<br>QSI Industry = group SUT Bottom level exc 45 46 47<br>QSI Question = group AN Output<br>Measure = OUTPUT,Inventories Local,,d7,copy
+122,t5.1.2 Copy BV QSI for Unbal Inv,"<br>QSI Industry = 45,46,47<br>QSI Question = group AN Output inc AN.125 exc 123.OTH<br>Measure = OUTPUT",Inventories Local,,d7,copy
+124,5.2.1 Copy BV Other Unbal Inv,<br>Industry = group Bottom level<br>Asset = group Main<br>Measure = OUTPUT<br>Periodicity = Q,Inventories Local,,d7,copy
+125,5.2.2 Copy BV Other AN123 Unbal,"<br>Industry = 65.1-2,65.3,84<br>Asset = AN.123<br>Measure = OUTPUT<br>Periodicity = Q",Inventories Local,,d7,copy
+126,5.2.3 Copy BV Other AN125 Unbal,<br>Industry = 46<br>Asset = AN.125<br>Measure = OUTPUT<br>Periodicity = Q,Inventories Local,,d7,copy
+128,5.3.1 Unbal Inv copy BV.in ABI,<br>Industry = *<br>Asset = AN.12<br>Adjustment Basis = RF<br>Source = ABI<br>Periodicity = A,Inventories Local,,d7,copy
+129,5.3.2 Copy BV ABI for Unbal Inv,<br>Industry = *<br>Asset = AN.12<br>Adjustment Basis = A1.2<br>Source = ABI<br>Periodicity = A,Inventories Local,,d7,copy
+131,5.4.1 Copy VPIC CP RP for Unbal,<br>Industry = group Published Bottom Level<br>Asset = group Main<br>Sector = S1<br>Price = CP<br>Adjustment Basis = RP<br>Seasonal Adjustment = NSA<br>Periodicity = Q<br>Product = TOTAL,Inventories Local,,d7,copy
+132,5.4.2 copy VPIC CP AQ Unbal,<br>Industry = *<br>Asset = *<br>Sector = ST<br>Price = CP<br>Adjustment Basis = AQ<br>Seasonal Adjustment = NSA<br>Periodicity = Q<br>Product = TOTAL,Inventories Local,,d7,copy
+134,5.5.1 copy BVC Other for Unbal,"<br>Industry = 01<br>Asset = AN.121,AN.122,AN.123<br>Measure = BVC<br>Periodicity = Q<br>Adjustments = R1.2",Inventories Local,,d7,copy
+135,5.5.2 Copy BV Other 96Q4 Unbal,"<br>Industry = 01<br>Asset = AN.121,AN.122,AN.123<br>Measure = BV<br>Periodicity = *<br>Adjustments = R1.2",Inventories Local,,d7,copy
+136,5.5.3  Copy BV Other for Unbal,"<br>Industry = 01<br>Asset = AN.121,AN.122,AN.123<br>Measure = BV<br>Periodicity = A<br>Adjustments = R1.2",Inventories Local,,d7,copy
+138,5.6.1 Copy Ind Sec Patt Unbal,<br>Industry = *<br>Sector = *<br>Measure = *,Inventories Local,,d7,copy
+140,5.7.1 Copy VPIL.adj Unbal Inv,<br>Industry = *<br>Asset = *<br>Product = *<br>Price = *<br>Adjustment Basis = AQ,Inventories Local,,d7,copy
+142,5.8.1 copy SHP for Unbal,<br>Industry = group Bottom level<br>Asset = group Main<br>Prices = SHP<br>Periodicity = A,Inventories Local,,d7,copy
+143,5.8.2 Copy FLAGS for Unbal,<br>Industry = *<br>Asset = *<br>Prices = group FLAGS<br>Periodicity = A,Inventories Local,,d7,copy
+145,5.9.1 Copy PROP for Unbal Inv,<br>Industry = *<br>Product = *<br>Adjustment = R0,Inventories Local,,d7,copy
+146,5.9.2 Copy Patt Adj Unbal Inv,<br>Industry = *<br>Product = *<br>Adjustment = A0.1,Inventories Local,,d7,copy
+148,5.10.1 copy W DEF AN.122-5 Unbal,"<br>Industry = group Bottom level<br>Asset = AN.122,AN.123,AN.124,AN.125<br>Product = group Bottom level",Inventories Local,,d7,copy
+149,5.10.2 Copy pattern for Unbal,"<br>Industry = group Bottom level<br>Asset = AN.122,AN.123,AN.124,AN.125<br>Product = group Bottom level",Inventories Local,,d7,copy
+150,5.10.3 Copy patt CP R3.2 Unbal,<br>Industry = *<br>Asset = *<br>Product = *,Inventories Local,,d7,copy
+152,5.11.1 Copy UWDEF DEF for Unbal,<br>Product = *,Inventories Local,,d7,copy
+154,5.12.1 Delete Completed 4.4,<br>Industry = *<br>Asset = *<br>Sector = *<br>Price = *<br>Adjustment Basis = *<br>Seasonal Adjustment = *<br>Periodicity = *<br>Product = *,4.4 Process Satellite Adjustment,,,delete
+155,5.12.2 Delete Completed 4.6,<br>Industry = *<br>Sector = *<br>Measure = *,4.6 Process Ind Sector Pattern,,,delete
+156,5.12.3 Copy to Completed 4.4,<br>Industry = *<br>Asset = *<br>Sector = *<br>Price = *<br>Adjustment Basis = *<br>Seasonal Adjustment = *<br>Periodicity = *<br>Product = *,Inventories Local,,d20,copy
+157,5.12.4 Copy to Completed 4.6,<br>Industry = *<br>Sector = *<br>Measure = *,Inventories Local,,d9,copy

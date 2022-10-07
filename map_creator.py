@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 import re
+import shutil
 from typing import List
 import pandas as pd
 import json
 
 TASK_REPORT_PATH = r"Inventories Local_Task_Report_INT23_05_Oct_2022\00_00_Supertask_051016540.csv"
 STAT_ACT = "Inventories Local"
-DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'parent', 'shape', 'links']
+DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'group', 'shape', 'links']
 
 
 class ObjTypes(Enum):
@@ -41,32 +42,33 @@ class RefinedObject():  # TODO tidy up the elif mess?
         """Returns the assigned info as a string per object type"""
         obj_type = self.RAW['Object Type']
         if obj_type == 'bulk_import':
-            return ('<br>').join(self.RAW['Object Details'].values())
+            return '<br>'+('<br>').join(self.RAW['Object Details'].values())
         elif obj_type == 'survey_import':
-            return self.RAW['Object Details']['description']
+            return '<br>'+self.RAW['Object Details']['description']
         elif obj_type in ['DELETE DATA', 'COPY BETWEEN DATASETS']:
             sel_crit = []
             for key, val in self.RAW['Selection Criteria'].items():
                 sel_crit.append(key + ' = ' + val)
-            return ('<br>').join(sel_crit)
+            return '<br>'+('<br>').join(sel_crit)
         elif obj_type == 'FORMULA':
-            details = 'Items Calculated: '
+            details = 'Items Calculated: ['
             for key, val in self.RAW['Object Details']['items to calculate'].items():
-                details += key + ": " + val + "<br>"
-            details += 'Formula: '
+                details += key + ": " + val + ", "
+            details = details[:-2]
+            details += ']<br>Formula: '
             details += self.RAW['Object Details']['formula']
-            return details
+            return '<br>'+details
         elif obj_type in ['AGGREGATE', 'PRORATE']:
             details = []
             for key, val in self.RAW['Object Details'].items():
                 details.append(key + ': ' + val)
-            return ('<br>').join(details)
+            return '<br>'+('<br>').join(details)
         else:
             raise Exception("Unknown object type: " + obj_type)
 
     @property
-    def parent(self):
-        """Returns the parent"""
+    def group(self):
+        """Returns the group"""
         if self.RAW['Object Type'] in ['COPY BETWEEN DATASETS',
                                        'bulk_import', 'survey_import']:
             return STAT_ACT
@@ -74,21 +76,21 @@ class RefinedObject():  # TODO tidy up the elif mess?
             return self.RAW['Dataset']
 
     @property
-    def shape(self):
+    def style_type(self):
         """Returns the assigned shape as a string per object type"""
         obj_type = self.RAW['Object Type']
         if obj_type in ['bulk_import', 'survey_import']:
-            return 'note'
+            return 'import'
         elif obj_type == 'DELETE DATA':
-            return 'sum'
+            return 'delete'
         elif obj_type == 'COPY BETWEEN DATASETS':
-            return 'rounded rectangle'
+            return 'copy'
         elif obj_type == 'FORMULA':
-            return 'parallelogram'
+            return 'formula'
         elif obj_type == 'AGGREGATE':
-            return 'trapezoid'
+            return 'aggregate'
         elif obj_type == 'PRORATE':
-            return 'document'
+            return 'prorate'
         else:
             raise Exception("Unknown object type: " + obj_type)
 
@@ -101,15 +103,15 @@ class RefinedObject():  # TODO tidy up the elif mess?
                     for ho in hobjs if ho['name'] == self.RAW['Dataset']]
             if len(link) > 1:
                 raise Exception('Too many links')
-            return '"'+str(link[0])+'"'
+            return str(link[0])
         elif obj_type in ['DELETE DATA', 'FORMULA', 'AGGREGATE', 'PRORATE']:
-            link = '""'
+            link = ''
             dr = dataset_register[dataset_register['Dataset']
                                   == self.RAW['Dataset']].reset_index()
             idx = dr[dr['Name'].str.strip() == self.RAW['Name']
                      ].index.tolist()[0]
             if idx != dr.index.tolist()[-1]:
-                link = '"' + str(dr.iloc[idx+1, 0]) + '"'
+                link = str(dr.iloc[idx+1, 0])
             return link
         else:
             raise Exception("Unknown object type: " + obj_type)
@@ -126,6 +128,7 @@ def convert_objects(tr: pd.DataFrame) -> pd.DataFrame():
         s = re.sub('{([^{}]*?)( ?\")', r'"\1": {"', s)
         s = re.sub('(\"[} ]?)\"', r'\1, "', s)
         s = '{' + s + '}'
+        # con checks: ^{(.*?( +)){(.*?)}
         return json.loads(s)
 
     objs = []
@@ -151,8 +154,8 @@ def register_holding_objs(objs: List) -> List[dict]:
     global hobjs  # global not ideal but can't thing of a better way right now
     hobjs = []
     # add the stat act to the holding objects
-    hobjs.append({'name': STAT_ACT, 'id': 'sa', 'parent': '-',
-                 'shape': 'container', 'links': '""'})
+    hobjs.append({'name': STAT_ACT, 'id': 'sa', 'group': '-',
+                 'style_type': 'sa', 'links': ''})
     # compile a complete set of datasets and links
     datasets = set()
     links = dict()
@@ -172,8 +175,8 @@ def register_holding_objs(objs: List) -> List[dict]:
 
     # add datasets to the holding objects
     for i, dataset in enumerate(datasets):
-        hobjs.append({'name': dataset, 'id': 'd'+str(i), 'parent': STAT_ACT,
-                     'shape': 'horizontal container', 'links': '"' + (',').join(links[dataset]) + '"'})
+        hobjs.append({'name': dataset, 'id': 'd'+str(i), 'group': STAT_ACT,
+                     'style_type': 'dataset', 'links': (',').join(links[dataset])})
 
 
 def create_drawio_df(objs: List[RefinedObject]) -> pd.DataFrame:
@@ -183,18 +186,29 @@ def create_drawio_df(objs: List[RefinedObject]) -> pd.DataFrame:
         r = len(df.index.tolist())
         df.loc[r, 'id'] = ho['id']
         df.loc[r, 'name'] = ho['name']
-        df.loc[r, 'parent'] = ho['parent']
-        df.loc[r, 'shape'] = ho['shape']
+        df.loc[r, 'group'] = ho['group']
+        df.loc[r, 'style_type'] = ho['style_type']
         df.loc[r, 'links'] = ho['links']
     for obj in objs:
         r = len(df.index.tolist())
         df.loc[r, 'id'] = obj.id
         df.loc[r, 'info'] = obj.info
         df.loc[r, 'name'] = obj.name
-        df.loc[r, 'parent'] = obj.parent
-        df.loc[r, 'shape'] = obj.shape
+        df.loc[r, 'group'] = obj.group
+        df.loc[r, 'style_type'] = obj.style_type
         df.loc[r, 'links'] = obj.links
     return df
+
+
+def create_maps(robjs: List[RefinedObject]):
+    """Create the CSV files to create the map"""
+    # create the drawio csv dataset
+    dio_all = create_drawio_df(robjs)
+    for group in dio_all['group'].drop_duplicates().tolist():
+        mf = f'map/{group}.csv'
+        shutil.copyfile('drawio_header.csv', mf)
+        df = dio_all[dio_all['group'] == group]
+        df.to_csv(mf, mode='a', index=False)
 
 
 if __name__ == "__main__":
@@ -207,7 +221,12 @@ if __name__ == "__main__":
     tr = tr[tr['Kind'] != 'CONSISTENCY CHECK DEFINITION']
 
     global dataset_register
-    dataset_register = tr[['Order', 'Name', 'Dataset']]
+    dataset_register = tr[tr['Object Type'] != 'bulk_import']
+    dataset_register = dataset_register[dataset_register['Object Type']
+                                        != 'survey_import']
+    dataset_register = dataset_register[dataset_register['Object Type']
+                                        != 'COPY BETWEEN DATASETS']
+    dataset_register = dataset_register[['Order', 'Name', 'Dataset']]
 
     # get a list of the objects as dicts
     objs = convert_objects(tr)
@@ -215,5 +234,4 @@ if __name__ == "__main__":
     register_holding_objs(objs)
     # refine the objects ready for drawio
     robjs = [RefinedObject(obj) for obj in objs]
-    # create the drawio csv dataset
-    dio_csv = create_drawio_df(robjs)
+    create_maps(robjs)
