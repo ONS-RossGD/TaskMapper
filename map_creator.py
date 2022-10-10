@@ -1,3 +1,4 @@
+from cProfile import label
 from dataclasses import dataclass
 from enum import Enum, auto
 import re
@@ -5,10 +6,11 @@ import shutil
 from typing import List
 import pandas as pd
 import json
+import graphviz
 
 TASK_REPORT_PATH = r"Inventories Local_Task_Report_INT23_05_Oct_2022\00_00_Supertask_051016540.csv"
 STAT_ACT = "Inventories Local"
-DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'group', 'shape', 'links']
+DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'group', 'type', 'edges']
 
 
 class ObjTypes(Enum):
@@ -71,13 +73,17 @@ class RefinedObject():  # TODO tidy up the elif mess?
         """Returns the group"""
         if self.RAW['Object Type'] in ['COPY BETWEEN DATASETS',
                                        'bulk_import', 'survey_import']:
-            return STAT_ACT
+            return 'sa'
         else:
-            return self.RAW['Dataset']
+            g = [ho['id']
+                 for ho in hobjs if ho['name'] == self.RAW['Dataset']]
+            if len(g) > 1:
+                raise Exception('Too many matching datasets')
+            return g[0]
 
     @property
-    def style_type(self):
-        """Returns the assigned shape as a string per object type"""
+    def obj_type(self):
+        """Returns the assigned type as a string per object type"""
         obj_type = self.RAW['Object Type']
         if obj_type in ['bulk_import', 'survey_import']:
             return 'import'
@@ -95,24 +101,30 @@ class RefinedObject():  # TODO tidy up the elif mess?
             raise Exception("Unknown object type: " + obj_type)
 
     @property
-    def links(self):
-        """Returns the assigned shape as a string per object type"""
+    def edges(self):
+        """Returns the list of edges"""
         obj_type = self.RAW['Object Type']
-        if obj_type in ['bulk_import', 'survey_import', 'COPY BETWEEN DATASETS']:
-            link = [ho['id']
+        if obj_type in ['bulk_import', 'survey_import']:
+            edge = [(self.id, f'cluster_{ho["id"]}')
                     for ho in hobjs if ho['name'] == self.RAW['Dataset']]
-            if len(link) > 1:
-                raise Exception('Too many links')
-            return str(link[0])
+            if len(edge) > 1:
+                raise Exception('Too many edges')
+            return edge
+        elif obj_type in ['COPY BETWEEN DATASETS']:
+            sd = self.RAW["Object Details"]["source dataset"]["name"]
+            edges = [(f"cluster_{[ho['id'] for ho in hobjs if ho['name'] == sd][0]}_out", self.id),
+                     (self.id, f"cluster_{[ho['id'] for ho in hobjs if ho['name'] == self.RAW['Dataset']][0]}")]
+            print(edges)
+            return edges
         elif obj_type in ['DELETE DATA', 'FORMULA', 'AGGREGATE', 'PRORATE']:
-            link = ''
+            edge = []
             dr = dataset_register[dataset_register['Dataset']
                                   == self.RAW['Dataset']].reset_index()
             idx = dr[dr['Name'].str.strip() == self.RAW['Name']
                      ].index.tolist()[0]
             if idx != dr.index.tolist()[-1]:
-                link = str(dr.iloc[idx+1, 0])
-            return link
+                edge.append((self.id, str(dr.iloc[idx+1, 0])))
+            return edge
         else:
             raise Exception("Unknown object type: " + obj_type)
 
@@ -154,61 +166,99 @@ def register_holding_objs(objs: List) -> List[dict]:
     global hobjs  # global not ideal but can't thing of a better way right now
     hobjs = []
     # add the stat act to the holding objects
-    hobjs.append({'name': STAT_ACT, 'id': 'sa', 'group': '-',
-                 'style_type': 'sa', 'links': ''})
-    # compile a complete set of datasets and links
+    # hobjs.append({'name': STAT_ACT, 'id': 'sa', 'group': 'root',
+    #              'type': 'sa', 'edges': []})
+    # compile a complete set of datasets and edges
     datasets = set()
-    links = dict()
+    edges = dict()
+    ids = dict()
     for obj in objs:
         datasets.add(obj['Dataset'])
         if obj['Object Type'] != 'COPY BETWEEN DATASETS':
             continue
         name = obj['Object Details']['source dataset']['name']
         datasets.add(name)
+        for i, d in enumerate(datasets):
+            ids[d] = 'd'+str(i)
         try:
-            links[name].append(obj['Order'])
+            edges[name].append((ids[name], obj['Order']))
         except KeyError:
-            links[name] = [obj['Order']]
-    # fill in the links with blanks for dataframes without links
-    for name in datasets.difference(links.keys()):
-        links[name] = ''
+            edges[name] = [(ids[name], obj['Order'])]
+    # fill in the edges with blanks for dataframes without edges
+    for name in datasets.difference(edges.keys()):
+        edges[name] = []
 
     # add datasets to the holding objects
-    for i, dataset in enumerate(datasets):
-        hobjs.append({'name': dataset, 'id': 'd'+str(i), 'group': STAT_ACT,
-                     'style_type': 'dataset', 'links': (',').join(links[dataset])})
+    for dataset in datasets:
+        hobjs.append({'name': dataset, 'id': ids[dataset], 'group': 'sa',
+                     'type': 'dataset', 'edges': edges[dataset]})
 
 
-def create_drawio_df(objs: List[RefinedObject]) -> pd.DataFrame:
-    """Creates and returns the dataframe for the holding objects"""
+def create_obj_df(robjs: List[RefinedObject]) -> pd.DataFrame:
+    """Creates and returns the object dataframe"""
     df = pd.DataFrame(columns=DRAWIO_CSV_HEADERS)
-    for ho in hobjs:
-        r = len(df.index.tolist())
-        df.loc[r, 'id'] = ho['id']
-        df.loc[r, 'name'] = ho['name']
-        df.loc[r, 'group'] = ho['group']
-        df.loc[r, 'style_type'] = ho['style_type']
-        df.loc[r, 'links'] = ho['links']
-    for obj in objs:
+    # for ho in hobjs:
+    #     r = len(df.index.tolist())
+    #     df.loc[r, 'id'] = ho['id']
+    #     df.loc[r, 'name'] = ho['name']
+    #     df.loc[r, 'group'] = ho['group']
+    #     df.loc[r, 'type'] = ho['type']
+    #     df.loc[r, 'edges'] = ho['edges']
+    for obj in robjs:
         r = len(df.index.tolist())
         df.loc[r, 'id'] = obj.id
         df.loc[r, 'info'] = obj.info
         df.loc[r, 'name'] = obj.name
         df.loc[r, 'group'] = obj.group
-        df.loc[r, 'style_type'] = obj.style_type
-        df.loc[r, 'links'] = obj.links
+        df.loc[r, 'type'] = obj.obj_type
+        df.loc[r, 'edges'] = obj.edges
     return df
 
 
 def create_maps(robjs: List[RefinedObject]):
-    """Create the CSV files to create the map"""
+    """Create the graphviz map"""
     # create the drawio csv dataset
-    dio_all = create_drawio_df(robjs)
-    for group in dio_all['group'].drop_duplicates().tolist():
-        mf = f'map/{group}.csv'
-        shutil.copyfile('drawio_header.csv', mf)
-        df = dio_all[dio_all['group'] == group]
-        df.to_csv(mf, mode='a', index=False)
+    objs_df = create_obj_df(robjs)
+    print(objs_df.head())
+    # print(objs_df.head(50))
+    g = graphviz.Digraph('G', filename=f'{STAT_ACT}.dot')
+    g.attr(compound='true')
+    # first item will be the stat act
+    # sa_obj = hobjs.pop(0)
+    with (g.subgraph(name=f'cluster_{STAT_ACT}')) as sa:
+        sa.attr(label=STAT_ACT)
+        for ho in hobjs:
+            with (sa.subgraph(name=f'cluster_{ho["id"]}')) as c:
+                c.attr(label=ho['name'], rank='TB')
+                c.node(f'cluster_{ho["id"]}', style='invis')
+                try:
+                    first = objs_df[objs_df['group'] == ho['id']]['id'].tolist()[
+                        0]
+                    last = objs_df[objs_df['group'] ==
+                                   ho['id']]['id'].tolist()[-1]
+                    c.edge(f'cluster_{ho["id"]}', first, style='invis')
+                    c.edge(last, f'cluster_{ho["id"]}_out', style='invis')
+                except IndexError:
+                    c.edge(f'cluster_{ho["id"]}',
+                           f'cluster_{ho["id"]}_out', style='invis')
+                for _, r in objs_df[objs_df['group'] == ho['id']].iterrows():
+                    c.node(r['id'], r['name'])
+                    c.edges(r['edges'])
+                c.node(f'cluster_{ho["id"]}_out', style='invis')
+        for _, r in objs_df[objs_df['group'] == 'sa'].iterrows():
+            sa.node(r['id'], r['name'])
+            edges = r['edges']
+            for (tail, head) in edges:
+                ltail, lhead = '', ''
+                if 'cluster_' in tail:
+                    ltail = tail
+                if 'cluster_' in head:
+                    lhead = head
+                sa.edge(tail, head, ltail=ltail, lhead=lhead)
+
+        # TODO TODO TODO need to redo the edges. Might also be worth renaming to fit clusters/edges/nodes notation
+
+    g.save()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,405 @@
+digraph G {
+	compound=true
+	subgraph "cluster_Inventories Local" {
+		label="Inventories Local"
+		subgraph cluster_d0 {
+			label="05.00 Deflator adjustments" rank=TB
+			cluster_d0 [style=invis]
+			cluster_d0 -> cluster_d0_out [style=invis]
+			cluster_d0_out [style=invis]
+		}
+		subgraph cluster_d1 {
+			label="2.5 Input Satellite Adjustments" rank=TB
+			cluster_d1 [style=invis]
+			cluster_d1 -> 35 [style=invis]
+			35 -> cluster_d1_out [style=invis]
+			35 [label="2.1.5 Del 2.5 data prev run"]
+			cluster_d1_out [style=invis]
+		}
+		subgraph cluster_d2 {
+			label="2.4 Input Adjustment SU Quality" rank=TB
+			cluster_d2 [style=invis]
+			cluster_d2 -> 34 [style=invis]
+			34 -> cluster_d2_out [style=invis]
+			34 [label="2.1.4 Del 2.4 prev run data"]
+			cluster_d2_out [style=invis]
+		}
+		subgraph cluster_d3 {
+			label="00.090 Product Breakdown" rank=TB
+			cluster_d3 [style=invis]
+			cluster_d3 -> cluster_d3_out [style=invis]
+			cluster_d3_out [style=invis]
+		}
+		subgraph cluster_d4 {
+			label="4.5 Process DEFRA Delivery" rank=TB
+			cluster_d4 [style=invis]
+			cluster_d4 -> 53 [style=invis]
+			101 -> cluster_d4_out [style=invis]
+			53 [label="4.0.1.5 Del 4.5 Processing Data"]
+			53 -> 91
+			91 [label="4.5.2.1 DF Calc AN.121_AN.123 BV"]
+			91 -> 92
+			92 [label="4.5.2.2 DF Calc AN.121 BVC"]
+			92 -> 93
+			93 [label="4.5.2.3 DF Calc AN.121_AN.123 BV"]
+			93 -> 94
+			94 [label="4.5.2.4 DF Calc AN.121 BV"]
+			94 -> 95
+			95 [label="4.5.2.5 DF Create Q4 for 96"]
+			95 -> 96
+			96 [label="4.5.2.6 DF Forecast R0 endyear"]
+			96 -> 97
+			97 [label="4.5.2.7 DF Forecast R1.2 endyear"]
+			97 -> 98
+			98 [label="4.5.2.8 DF Spline to Q"]
+			98 -> 99
+			99 [label="4.5.2.9 DF Set BVC to R1.2"]
+			99 -> 100
+			100 [label="4.5.2.10 DF Set BV to R1.2"]
+			100 -> 101
+			101 [label="4.5.2.11 DF Create BV timeseries"]
+			cluster_d4_out [style=invis]
+		}
+		subgraph cluster_d5 {
+			label="4.7 Process SU Qual Adjustments" rank=TB
+			cluster_d5 [style=invis]
+			cluster_d5 -> 55 [style=invis]
+			55 -> cluster_d5_out [style=invis]
+			55 [label="4.0.1.7 Del 4.7 Processing Data"]
+			cluster_d5_out [style=invis]
+		}
+		subgraph cluster_d6 {
+			label="1.3  Input ABI" rank=TB
+			cluster_d6 [style=invis]
+			cluster_d6 -> 21 [style=invis]
+			21 -> cluster_d6_out [style=invis]
+			21 [label="1.1.2 Del previous data"]
+			cluster_d6_out [style=invis]
+		}
+		subgraph cluster_d7 {
+			label="2.2 Input Adjustment NonQSI A1.2" rank=TB
+			cluster_d7 [style=invis]
+			cluster_d7 -> 32 [style=invis]
+			32 -> cluster_d7_out [style=invis]
+			32 [label="2.1.2 Del 2.2 prev run data"]
+			cluster_d7_out [style=invis]
+		}
+		subgraph cluster_d8 {
+			label="00.080 Product Pattern Input" rank=TB
+			cluster_d8 [style=invis]
+			cluster_d8 -> cluster_d8_out [style=invis]
+			cluster_d8_out [style=invis]
+		}
+		subgraph cluster_d9 {
+			label="5.1 Output Unbalanced Invent" rank=TB
+			cluster_d9 [style=invis]
+			cluster_d9 -> 119 [style=invis]
+			119 -> cluster_d9_out [style=invis]
+			119 [label="5.0.1.1 Delete prev task data"]
+			cluster_d9_out [style=invis]
+		}
+		subgraph cluster_d10 {
+			label="3.1 Input Sector Ind Pattern" rank=TB
+			cluster_d10 [style=invis]
+			cluster_d10 -> 45 [style=invis]
+			45 -> cluster_d10_out [style=invis]
+			45 [label="3.1.1 Del 3.1 prev run data"]
+			cluster_d10_out [style=invis]
+		}
+		subgraph cluster_d11 {
+			label="2.1 Input Adjustment QSI A1.2" rank=TB
+			cluster_d11 [style=invis]
+			cluster_d11 -> 31 [style=invis]
+			31 -> cluster_d11_out [style=invis]
+			31 [label="2.1.1 Del 2.1 prev run data"]
+			cluster_d11_out [style=invis]
+		}
+		subgraph cluster_d12 {
+			label="00.100 Sector Breakdown" rank=TB
+			cluster_d12 [style=invis]
+			cluster_d12 -> cluster_d12_out [style=invis]
+			cluster_d12_out [style=invis]
+		}
+		subgraph cluster_d13 {
+			label="4.2 Process Non-QSI Industries" rank=TB
+			cluster_d13 [style=invis]
+			cluster_d13 -> 50 [style=invis]
+			69 -> cluster_d13_out [style=invis]
+			50 [label="4.0.1.2 Del 4.2 Processing Data"]
+			50 -> 61
+			61 [label="4.2.2.1 Calc 64 OTHER BVC A"]
+			61 -> 62
+			62 [label="4.2.2.2 Calc 01 06 OTHER BVC Q"]
+			62 -> 63
+			63 [label="4.2.2.3 Calc 01 06 64 OTHER BV Q"]
+			63 -> 64
+			64 [label="4.2.2.4 Calculate 46 65 84 BV"]
+			64 -> 65
+			65 [label="4.2.2.5 Agg Assets to AN.12"]
+			65 -> 66
+			66 [label="4.2.2.6 Agg PROP to Asset AN.12"]
+			66 -> 67
+			67 [label="4.2.2.7 Prorate from Asset AN.12"]
+			67 -> 68
+			68 [label="4.2.2.8 Extend A1.2 to end date"]
+			68 -> 69
+			69 [label="4.2.2.9 Calc measure OUTPUT"]
+			cluster_d13_out [style=invis]
+		}
+		subgraph cluster_d14 {
+			label="1.2 Input Non-QSI" rank=TB
+			cluster_d14 [style=invis]
+			cluster_d14 -> 20 [style=invis]
+			20 -> cluster_d14_out [style=invis]
+			20 [label="1.1.1 Del previous data"]
+			cluster_d14_out [style=invis]
+		}
+		subgraph cluster_d15 {
+			label="4.1 Process QSI Industries" rank=TB
+			cluster_d15 [style=invis]
+			cluster_d15 -> 49 [style=invis]
+			49 -> cluster_d15_out [style=invis]
+			49 [label="4.0.1.1 Del 4.1 Processing Data"]
+			cluster_d15_out [style=invis]
+		}
+		subgraph cluster_d16 {
+			label="2.3 Input Adjustment ABI A1.2" rank=TB
+			cluster_d16 [style=invis]
+			cluster_d16 -> 33 [style=invis]
+			33 -> cluster_d16_out [style=invis]
+			33 [label="2.1.3 Del 2.3 prev run data"]
+			cluster_d16_out [style=invis]
+		}
+		subgraph cluster_d17 {
+			label="4.4 Process Satellite Adjustment" rank=TB
+			cluster_d17 [style=invis]
+			cluster_d17 -> 52 [style=invis]
+			154 -> cluster_d17_out [style=invis]
+			52 [label="4.0.1.4 Del 4.4 Processing Data"]
+			52 -> 84
+			84 [label="4.4.2.1 Agg A5.2 up Industries"]
+			84 -> 85
+			85 [label="4.4.2.2 Agg A5.2 up Asset"]
+			85 -> 86
+			86 [label="4.4.2.3 Agg A5.2 up Sector"]
+			86 -> 154
+			154 [label="5.12.1 Delete Completed 4.4"]
+			cluster_d17_out [style=invis]
+		}
+		subgraph cluster_d18 {
+			label="00.020 Stock Holding Period" rank=TB
+			cluster_d18 [style=invis]
+			cluster_d18 -> cluster_d18_out [style=invis]
+			cluster_d18_out [style=invis]
+		}
+		subgraph cluster_d19 {
+			label="4.3 Process ABI Adjustment" rank=TB
+			cluster_d19 [style=invis]
+			cluster_d19 -> 51 [style=invis]
+			79 -> cluster_d19_out [style=invis]
+			51 [label="4.0.1.3 Del 4.3 Processing Data"]
+			51 -> 77
+			77 [label="4.3.2.1 Agg QSI to Annual"]
+			77 -> 78
+			78 [label="4.3.2.2 Agg QSI to Ind TOTAL"]
+			78 -> 79
+			79 [label="4.3.2.3 Agg QSI to Asset AN.12"]
+			cluster_d19_out [style=invis]
+		}
+		subgraph cluster_d20 {
+			label="TEMP Legacy QSI" rank=TB
+			cluster_d20 [style=invis]
+			cluster_d20 -> cluster_d20_out [style=invis]
+			cluster_d20_out [style=invis]
+		}
+		subgraph cluster_d21 {
+			label="1.4 Input DEFRA" rank=TB
+			cluster_d21 [style=invis]
+			cluster_d21 -> 22 [style=invis]
+			22 -> cluster_d21_out [style=invis]
+			22 [label="1.1.3 Del previous data"]
+			cluster_d21_out [style=invis]
+		}
+		subgraph cluster_d22 {
+			label="1.1 Input QSI" rank=TB
+			cluster_d22 [style=invis]
+			cluster_d22 -> cluster_d22_out [style=invis]
+			cluster_d22_out [style=invis]
+		}
+		subgraph cluster_d23 {
+			label="4.6 Process Ind Sector Pattern" rank=TB
+			cluster_d23 [style=invis]
+			cluster_d23 -> 54 [style=invis]
+			155 -> cluster_d23_out [style=invis]
+			54 [label="4.0.1.6 Del 4.6 Processing Data"]
+			54 -> 155
+			155 [label="5.12.2 Delete Completed 4.6"]
+			cluster_d23_out [style=invis]
+		}
+		2 [label="00.021 Stock Holding Periods"]
+		2 -> cluster_d18 [lhead=cluster_d18 ltail=""]
+		3 [label="00.022 Industry 84 deflator"]
+		3 -> cluster_d18 [lhead=cluster_d18 ltail=""]
+		4 [label="00.023 Industry 46 deflator"]
+		4 -> cluster_d18 [lhead=cluster_d18 ltail=""]
+		5 [label="00.101 Sector Breakdown"]
+		5 -> cluster_d12 [lhead=cluster_d12 ltail=""]
+		6 [label="3.2.1 Pattern Sector Industry"]
+		6 -> cluster_d10 [lhead=cluster_d10 ltail=""]
+		7 [label="2.2.5 Adjustment AQ for Pre SUT"]
+		7 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		8 [label="2.2.6 Adjustment A4.2 Balanced"]
+		8 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		9 [label="00.080 Product Pattern Input"]
+		9 -> cluster_d8 [lhead=cluster_d8 ltail=""]
+		10 [label="00.091 Product breakdown"]
+		10 -> cluster_d3 [lhead=cluster_d3 ltail=""]
+		11 [label="03.102 Input A1.2 Adjustments"]
+		11 -> cluster_d19 [lhead=cluster_d19 ltail=""]
+		12 [label="2.2.7 Adjustment A5.2 Balanced"]
+		12 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		13 [label="2.2.8 Adjustment RP data"]
+		13 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		14 [label="05.00 Deflator adjustments"]
+		14 -> cluster_d0 [lhead=cluster_d0 ltail=""]
+		15 [label="07.00 SU Qual Adj"]
+		15 -> cluster_d5 [lhead=cluster_d5 ltail=""]
+		17 [label="00.020 Deflator FLAGS"]
+		17 -> cluster_d18 [lhead=cluster_d18 ltail=""]
+		24 [label="1.2.1 Data - QSI"]
+		24 -> cluster_d22 [lhead=cluster_d22 ltail=""]
+		25 [label="1.2.2 Data - QSI"]
+		25 -> cluster_d22 [lhead=cluster_d22 ltail=""]
+		26 [label="1.2.3 Data - Non-QSI"]
+		26 -> cluster_d14 [lhead=cluster_d14 ltail=""]
+		27 [label="1.2.4 Data - Non-QSI"]
+		27 -> cluster_d14 [lhead=cluster_d14 ltail=""]
+		28 [label="1.2.5 Data - ABI Missing"]
+		28 -> cluster_d6 [lhead=cluster_d6 ltail=""]
+		29 [label="1.2.6 Data - DEFRA"]
+		29 -> cluster_d21 [lhead=cluster_d21 ltail=""]
+		36 [label="2.2.1 Adjustment - A1.2 QSI"]
+		36 -> cluster_d11 [lhead=cluster_d11 ltail=""]
+		37 [label="2.2.2 Adjustment - A1.2 Non-QSI"]
+		37 -> cluster_d7 [lhead=cluster_d7 ltail=""]
+		38 [label="2.2.3 Adjustment - A1.2 ABI"]
+		38 -> cluster_d16 [lhead=cluster_d16 ltail=""]
+		39 [label="2.2.4 Adjustment - SU Quality"]
+		39 -> cluster_d2 [lhead=cluster_d2 ltail=""]
+		40 [label="2.2.5 Adjustment AQ for Pre SUT"]
+		40 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		41 [label="2.2.6 Adjustment A4.2 Balanced"]
+		41 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		42 [label="2.2.7 Adjustment A5.2 Balanced"]
+		42 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		43 [label="2.2.8 Adjustment RP data"]
+		43 -> cluster_d1 [lhead=cluster_d1 ltail=""]
+		46 [label="3.2.1 Pattern Sector Industry"]
+		46 -> cluster_d10 [lhead=cluster_d10 ltail=""]
+		58 [label="4.2.1.1 Copy Data Non-QSI Ind"]
+		cluster_d14_out -> 58 [lhead="" ltail=cluster_d14_out]
+		58 -> cluster_d13 [lhead=cluster_d13 ltail=""]
+		59 [label="4.2.1.2 Copy Adj Non-QSI A1.2"]
+		cluster_d7_out -> 59 [lhead="" ltail=cluster_d7_out]
+		59 -> cluster_d13 [lhead=cluster_d13 ltail=""]
+		70 [label="4.2.2.10 Form Ind 46, AN.125"]
+		cluster_d13_out -> 70 [lhead="" ltail=cluster_d13_out]
+		70 -> cluster_d13 [lhead=cluster_d13 ltail=""]
+		73 [label="4.3.1.1 Copy Data ABI Missing"]
+		cluster_d6_out -> 73 [lhead="" ltail=cluster_d6_out]
+		73 -> cluster_d19 [lhead=cluster_d19 ltail=""]
+		74 [label="4.3.1.2 Copy Adjustment A1.2 ABI"]
+		cluster_d16_out -> 74 [lhead="" ltail=cluster_d16_out]
+		74 -> cluster_d19 [lhead=cluster_d19 ltail=""]
+		75 [label="t4.3.1.3 Copy QSI quarterly data"]
+		cluster_d20_out -> 75 [lhead="" ltail=cluster_d20_out]
+		75 -> cluster_d19 [lhead=cluster_d19 ltail=""]
+		82 [label="4.4.1.1 Copy Adjustment and RP"]
+		cluster_d1_out -> 82 [lhead="" ltail=cluster_d1_out]
+		82 -> cluster_d17 [lhead=cluster_d17 ltail=""]
+		89 [label="4.5.1.1 Copy DEFRA Data"]
+		cluster_d21_out -> 89 [lhead="" ltail=cluster_d21_out]
+		89 -> cluster_d4 [lhead=cluster_d4 ltail=""]
+		104 [label="4.6.1.1 Copy Sector Pattern Data"]
+		cluster_d10_out -> 104 [lhead="" ltail=cluster_d10_out]
+		104 -> cluster_d23 [lhead=cluster_d23 ltail=""]
+		107 [label="4.7.1.1 Copy Quality Adjust SU"]
+		cluster_d2_out -> 107 [lhead="" ltail=cluster_d2_out]
+		107 -> cluster_d5 [lhead=cluster_d5 ltail=""]
+		109 [label="4.7.2.1 Wip to completed"]
+		cluster_d5_out -> 109 [lhead="" ltail=cluster_d5_out]
+		109 -> cluster_d5 [lhead=cluster_d5 ltail=""]
+		121 [label="t5.1.1 Copy BV QSI for Unbal Inv"]
+		cluster_d20_out -> 121 [lhead="" ltail=cluster_d20_out]
+		121 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		122 [label="t5.1.2 Copy BV QSI for Unbal Inv"]
+		cluster_d20_out -> 122 [lhead="" ltail=cluster_d20_out]
+		122 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		124 [label="5.2.1 Copy BV Other Unbal Inv"]
+		cluster_d13_out -> 124 [lhead="" ltail=cluster_d13_out]
+		124 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		125 [label="5.2.2 Copy BV Other AN123 Unbal"]
+		cluster_d13_out -> 125 [lhead="" ltail=cluster_d13_out]
+		125 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		126 [label="5.2.3 Copy BV Other AN125 Unbal"]
+		cluster_d13_out -> 126 [lhead="" ltail=cluster_d13_out]
+		126 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		128 [label="5.3.1 Unbal Inv copy BV.in ABI"]
+		cluster_d19_out -> 128 [lhead="" ltail=cluster_d19_out]
+		128 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		129 [label="5.3.2 Copy BV ABI for Unbal Inv"]
+		cluster_d19_out -> 129 [lhead="" ltail=cluster_d19_out]
+		129 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		131 [label="5.4.1 Copy VPIC CP RP for Unbal"]
+		cluster_d17_out -> 131 [lhead="" ltail=cluster_d17_out]
+		131 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		132 [label="5.4.2 copy VPIC CP AQ Unbal"]
+		cluster_d17_out -> 132 [lhead="" ltail=cluster_d17_out]
+		132 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		134 [label="5.5.1 copy BVC Other for Unbal"]
+		cluster_d4_out -> 134 [lhead="" ltail=cluster_d4_out]
+		134 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		135 [label="5.5.2 Copy BV Other 96Q4 Unbal"]
+		cluster_d4_out -> 135 [lhead="" ltail=cluster_d4_out]
+		135 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		136 [label="5.5.3  Copy BV Other for Unbal"]
+		cluster_d4_out -> 136 [lhead="" ltail=cluster_d4_out]
+		136 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		138 [label="5.6.1 Copy Ind Sec Patt Unbal"]
+		cluster_d23_out -> 138 [lhead="" ltail=cluster_d23_out]
+		138 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		140 [label="5.7.1 Copy VPIL.adj Unbal Inv"]
+		cluster_d5_out -> 140 [lhead="" ltail=cluster_d5_out]
+		140 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		142 [label="5.8.1 copy SHP for Unbal"]
+		cluster_d18_out -> 142 [lhead="" ltail=cluster_d18_out]
+		142 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		143 [label="5.8.2 Copy FLAGS for Unbal"]
+		cluster_d18_out -> 143 [lhead="" ltail=cluster_d18_out]
+		143 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		145 [label="5.9.1 Copy PROP for Unbal Inv"]
+		cluster_d8_out -> 145 [lhead="" ltail=cluster_d8_out]
+		145 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		146 [label="5.9.2 Copy Patt Adj Unbal Inv"]
+		cluster_d8_out -> 146 [lhead="" ltail=cluster_d8_out]
+		146 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		148 [label="5.10.1 copy W DEF AN.122-5 Unbal"]
+		cluster_d3_out -> 148 [lhead="" ltail=cluster_d3_out]
+		148 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		149 [label="5.10.2 Copy pattern for Unbal"]
+		cluster_d3_out -> 149 [lhead="" ltail=cluster_d3_out]
+		149 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		150 [label="5.10.3 Copy patt CP R3.2 Unbal"]
+		cluster_d3_out -> 150 [lhead="" ltail=cluster_d3_out]
+		150 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		152 [label="5.11.1 Copy UWDEF DEF for Unbal"]
+		cluster_d0_out -> 152 [lhead="" ltail=cluster_d0_out]
+		152 -> cluster_d9 [lhead=cluster_d9 ltail=""]
+		156 [label="5.12.3 Copy to Completed 4.4"]
+		cluster_d17_out -> 156 [lhead="" ltail=cluster_d17_out]
+		156 -> cluster_d17 [lhead=cluster_d17 ltail=""]
+		157 [label="5.12.4 Copy to Completed 4.6"]
+		cluster_d23_out -> 157 [lhead="" ltail=cluster_d23_out]
+		157 -> cluster_d23 [lhead=cluster_d23 ltail=""]
+	}
+}
