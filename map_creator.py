@@ -1,19 +1,18 @@
-from cProfile import label
 from dataclasses import dataclass
 from enum import Enum, auto
 import re
-import shutil
-from typing import List
+from typing import List, Optional
+import uuid
 import pandas as pd
 import json
 import graphviz
 
 TASK_REPORT_PATH = r"Inventories Local_Task_Report_INT23_05_Oct_2022\00_00_Supertask_051016540.csv"
-STAT_ACT = "Inventories Local"
-DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'group', 'type', 'edges']
+MAIN_STAT_ACT = "Inventories Local"
+DRAWIO_CSV_HEADERS = ['id', 'name', 'info', 'cluster', 'type', 'edges']
 
 
-class ObjTypes(Enum):
+class ObjectType(Enum):
     """Classification of all known object types"""
     BULK = auto()
     SURVEY = auto()
@@ -24,107 +23,182 @@ class ObjTypes(Enum):
     FORMULA = auto()
 
 
+def node_style(t: ObjectType) -> str:
+    """Returns the node styling based on Object Type"""
+    if t in [ObjectType.BULK, ObjectType.SURVEY]:
+        return {'color': 'plum', 'style': 'filled'}
+    return {'shape': 'box'}
+
+
+class Register():
+    """"""
+    clusters: dict  # Dictionary of clusters
+    objects: List  # List of refined objects
+
+    def __init__(self) -> None:
+        self.clusters = dict()
+        self.objects = []
+        self.clusters[MAIN_STAT_ACT] = Cluster(self)
+
+    def register_internal(self, robj):
+        """"""
+        # if cluster doesn't exist create it
+        if not self.clusters.get(robj.dataset):
+            self.clusters[robj.dataset] = Cluster(self)
+        # import definitions go in the stat act and not the import dataset
+        if robj.obj_type in [ObjectType.BULK, ObjectType.SURVEY]:
+            self.clusters[MAIN_STAT_ACT].add_object(robj)
+        else:  # otherwise place the object in it's dataset
+            cluster = self.clusters[robj.dataset]
+            cluster.add_object(robj)
+            self.clusters[MAIN_STAT_ACT].add_cluster(cluster)
+        self.objects.append(robj)
+
+
+class Cluster():
+    """"""
+    ID: str
+    register: Register
+    objects: List
+    children: List
+
+    def __init__(self, register) -> None:
+        self.register = register
+        self.ID = 'cluster_'+uuid.uuid4().hex
+        self.objects = []
+        self.children = []
+        self.extra_edges = []
+
+    @property
+    def nodes(self):
+        """"""
+        nodes = []
+        for robj in self.objects:
+            node = dict()
+            node['id'] = robj.id
+            node['label'] = robj.name
+            node['style'] = node_style(robj.obj_type)
+            nodes.append(node)
+        if nodes == []:  # add a placeholder node if there are no nodes
+            nodes = [{'id': self.ID+'_ph',
+                      'label': '',
+                      'style': {'style': 'invis'}}]
+        return nodes
+
+    @property
+    def edges(self):
+        """"""
+        edges = []
+        extra_edges = []
+        for i, robj in enumerate(self.objects):
+            # special case for imports as I want the arrow to go to the cluster
+            if robj.obj_type in [ObjectType.BULK, ObjectType.SURVEY]:
+                try:  # use the id of the first node
+                    first_node = self.register.clusters[robj.dataset].nodes[0]['id']
+                except IndexError:  # if there are no nodes then reference a placeholder
+                    first_node = self.register.clusters[robj.dataset].ID+'_ph'
+                edges.append((
+                    robj.id,
+                    first_node,
+                    '',
+                    self.register.clusters[robj.dataset].ID
+                ))
+            # same as above for copy calcs
+            if robj.obj_type in [ObjectType.COPY_DATASETS]:
+                extra_edges.append((
+                    robj.id,
+                    self.register.clusters[robj.raw['Dataset']].nodes[0]['id'],
+                    '',
+                    self.register.clusters[robj.raw['Dataset']].ID
+                ))
+            if i+1 < len(self.objects) and robj.obj_type not in [ObjectType.BULK, ObjectType.SURVEY]:
+                edges.append((robj.id, self.objects[i+1].id, '', ''))
+        return edges, extra_edges
+
+    def add_object(self, robj):
+        """"""
+        self.objects.append(robj)
+
+    def add_cluster(self, cluster):
+        """"""
+        self.children.append(cluster)
+
+
 @dataclass
 class RefinedObject():  # TODO tidy up the elif mess?
     """"""
-    RAW: dict
+    raw: dict  # raw object in dictionary format
+    reg: Register  # the object register
+
+    def __post_init__(self):
+        """Runs immediately after init"""
+        reg.register_internal(self)
 
     @property
     def id(self):
         """Returns object id"""
-        return self.RAW['Order']
+        return self.raw['Order']
 
     @property
     def name(self):
         """Returns object name"""
-        return self.RAW['Name']
+        return self.raw['Name']
 
     @property
     def info(self):
         """Returns the assigned info as a string per object type"""
-        obj_type = self.RAW['Object Type']
+        obj_type = self.raw['Object Type']
         if obj_type == 'bulk_import':
-            return '<br>'+('<br>').join(self.RAW['Object Details'].values())
+            return '<br>'+('<br>').join(self.raw['Object Details'].values())
         elif obj_type == 'survey_import':
-            return '<br>'+self.RAW['Object Details']['description']
+            return '<br>'+self.raw['Object Details']['description']
         elif obj_type in ['DELETE DATA', 'COPY BETWEEN DATASETS']:
             sel_crit = []
-            for key, val in self.RAW['Selection Criteria'].items():
+            for key, val in self.raw['Selection Criteria'].items():
                 sel_crit.append(key + ' = ' + val)
             return '<br>'+('<br>').join(sel_crit)
         elif obj_type == 'FORMULA':
             details = 'Items Calculated: ['
-            for key, val in self.RAW['Object Details']['items to calculate'].items():
+            for key, val in self.raw['Object Details']['items to calculate'].items():
                 details += key + ": " + val + ", "
             details = details[:-2]
             details += ']<br>Formula: '
-            details += self.RAW['Object Details']['formula']
+            details += self.raw['Object Details']['formula']
             return '<br>'+details
         elif obj_type in ['AGGREGATE', 'PRORATE']:
             details = []
-            for key, val in self.RAW['Object Details'].items():
+            for key, val in self.raw['Object Details'].items():
                 details.append(key + ': ' + val)
             return '<br>'+('<br>').join(details)
         else:
             raise Exception("Unknown object type: " + obj_type)
 
     @property
-    def group(self):
-        """Returns the group"""
-        if self.RAW['Object Type'] in ['COPY BETWEEN DATASETS',
-                                       'bulk_import', 'survey_import']:
-            return 'sa'
-        else:
-            g = [ho['id']
-                 for ho in hobjs if ho['name'] == self.RAW['Dataset']]
-            if len(g) > 1:
-                raise Exception('Too many matching datasets')
-            return g[0]
+    def dataset(self):
+        """Returns the objects holding dataset"""
+        dataset = self.raw['Dataset']
+        if self.raw['Object Type'] == 'COPY BETWEEN DATASETS':
+            dataset = self.raw['Object Details']['source dataset']['name']
+        return dataset
 
     @property
     def obj_type(self):
         """Returns the assigned type as a string per object type"""
-        obj_type = self.RAW['Object Type']
-        if obj_type in ['bulk_import', 'survey_import']:
-            return 'import'
+        obj_type = self.raw['Object Type']
+        if obj_type == 'bulk_import':
+            return ObjectType.BULK
+        elif obj_type == 'survey_import':
+            return ObjectType.SURVEY
         elif obj_type == 'DELETE DATA':
-            return 'delete'
+            return ObjectType.DELETE
         elif obj_type == 'COPY BETWEEN DATASETS':
-            return 'copy'
+            return ObjectType.COPY_DATASETS
         elif obj_type == 'FORMULA':
-            return 'formula'
+            return ObjectType.FORMULA
         elif obj_type == 'AGGREGATE':
-            return 'aggregate'
+            return ObjectType.AGGREGATE
         elif obj_type == 'PRORATE':
-            return 'prorate'
-        else:
-            raise Exception("Unknown object type: " + obj_type)
-
-    @property
-    def edges(self):
-        """Returns the list of edges"""
-        obj_type = self.RAW['Object Type']
-        if obj_type in ['bulk_import', 'survey_import']:
-            edge = [(self.id, f'cluster_{ho["id"]}')
-                    for ho in hobjs if ho['name'] == self.RAW['Dataset']]
-            if len(edge) > 1:
-                raise Exception('Too many edges')
-            return edge
-        elif obj_type in ['COPY BETWEEN DATASETS']:
-            sd = self.RAW["Object Details"]["source dataset"]["name"]
-            edges = [(f"cluster_{[ho['id'] for ho in hobjs if ho['name'] == sd][0]}_out", self.id),
-                     (self.id, f"cluster_{[ho['id'] for ho in hobjs if ho['name'] == self.RAW['Dataset']][0]}")]
-            print(edges)
-            return edges
-        elif obj_type in ['DELETE DATA', 'FORMULA', 'AGGREGATE', 'PRORATE']:
-            edge = []
-            dr = dataset_register[dataset_register['Dataset']
-                                  == self.RAW['Dataset']].reset_index()
-            idx = dr[dr['Name'].str.strip() == self.RAW['Name']
-                     ].index.tolist()[0]
-            if idx != dr.index.tolist()[-1]:
-                edge.append((self.id, str(dr.iloc[idx+1, 0])))
-            return edge
+            return ObjectType.PRORATE
         else:
             raise Exception("Unknown object type: " + obj_type)
 
@@ -160,103 +234,45 @@ def convert_objects(tr: pd.DataFrame) -> pd.DataFrame():
     return objs
 
 
-def register_holding_objs(objs: List) -> List[dict]:
-    """Registers the holding objects and publishes to global
-    variable hobjs"""
-    global hobjs  # global not ideal but can't thing of a better way right now
-    hobjs = []
-    # add the stat act to the holding objects
-    # hobjs.append({'name': STAT_ACT, 'id': 'sa', 'group': 'root',
-    #              'type': 'sa', 'edges': []})
-    # compile a complete set of datasets and edges
-    datasets = set()
-    edges = dict()
-    ids = dict()
-    for obj in objs:
-        datasets.add(obj['Dataset'])
-        if obj['Object Type'] != 'COPY BETWEEN DATASETS':
-            continue
-        name = obj['Object Details']['source dataset']['name']
-        datasets.add(name)
-        for i, d in enumerate(datasets):
-            ids[d] = 'd'+str(i)
-        try:
-            edges[name].append((ids[name], obj['Order']))
-        except KeyError:
-            edges[name] = [(ids[name], obj['Order'])]
-    # fill in the edges with blanks for dataframes without edges
-    for name in datasets.difference(edges.keys()):
-        edges[name] = []
-
-    # add datasets to the holding objects
-    for dataset in datasets:
-        hobjs.append({'name': dataset, 'id': ids[dataset], 'group': 'sa',
-                     'type': 'dataset', 'edges': edges[dataset]})
-
-
-def create_obj_df(robjs: List[RefinedObject]) -> pd.DataFrame:
-    """Creates and returns the object dataframe"""
-    df = pd.DataFrame(columns=DRAWIO_CSV_HEADERS)
-    # for ho in hobjs:
-    #     r = len(df.index.tolist())
-    #     df.loc[r, 'id'] = ho['id']
-    #     df.loc[r, 'name'] = ho['name']
-    #     df.loc[r, 'group'] = ho['group']
-    #     df.loc[r, 'type'] = ho['type']
-    #     df.loc[r, 'edges'] = ho['edges']
-    for obj in robjs:
-        r = len(df.index.tolist())
-        df.loc[r, 'id'] = obj.id
-        df.loc[r, 'info'] = obj.info
-        df.loc[r, 'name'] = obj.name
-        df.loc[r, 'group'] = obj.group
-        df.loc[r, 'type'] = obj.obj_type
-        df.loc[r, 'edges'] = obj.edges
-    return df
-
-
-def create_maps(robjs: List[RefinedObject]):
+def create_maps(reg: Register):
     """Create the graphviz map"""
-    # create the drawio csv dataset
-    objs_df = create_obj_df(robjs)
-    print(objs_df.head())
-    # print(objs_df.head(50))
-    g = graphviz.Digraph('G', filename=f'{STAT_ACT}.dot')
-    g.attr(compound='true')
-    # first item will be the stat act
-    # sa_obj = hobjs.pop(0)
-    with (g.subgraph(name=f'cluster_{STAT_ACT}')) as sa:
-        sa.attr(label=STAT_ACT)
-        for ho in hobjs:
-            with (sa.subgraph(name=f'cluster_{ho["id"]}')) as c:
-                c.attr(label=ho['name'], rank='TB')
-                c.node(f'cluster_{ho["id"]}', style='invis')
-                try:
-                    first = objs_df[objs_df['group'] == ho['id']]['id'].tolist()[
-                        0]
-                    last = objs_df[objs_df['group'] ==
-                                   ho['id']]['id'].tolist()[-1]
-                    c.edge(f'cluster_{ho["id"]}', first, style='invis')
-                    c.edge(last, f'cluster_{ho["id"]}_out', style='invis')
-                except IndexError:
-                    c.edge(f'cluster_{ho["id"]}',
-                           f'cluster_{ho["id"]}_out', style='invis')
-                for _, r in objs_df[objs_df['group'] == ho['id']].iterrows():
-                    c.node(r['id'], r['name'])
-                    c.edges(r['edges'])
-                c.node(f'cluster_{ho["id"]}_out', style='invis')
-        for _, r in objs_df[objs_df['group'] == 'sa'].iterrows():
-            sa.node(r['id'], r['name'])
-            edges = r['edges']
-            for (tail, head) in edges:
-                ltail, lhead = '', ''
-                if 'cluster_' in tail:
-                    ltail = tail
-                if 'cluster_' in head:
-                    lhead = head
-                sa.edge(tail, head, ltail=ltail, lhead=lhead)
 
-        # TODO TODO TODO need to redo the edges. Might also be worth renaming to fit clusters/edges/nodes notation
+    def add_nodes(graph: graphviz.Digraph, cluster: Cluster):
+        """Adds all nodes from the cluster to the graph"""
+        for node in cluster.nodes:
+            graph.node(node['id'], node['label'], **
+                       node['style'])
+
+    def add_edges(graph: graphviz.Digraph, cluster: Cluster, extras: Optional[List] = []):
+        """Adds all nodes from the cluster to the graph"""
+        own, parent = cluster.edges
+        for (tail, head, ltail, lhead) in own:
+            graph.edge(tail, head, ltail=ltail, lhead=lhead)
+        for (tail, head, ltail, lhead) in extras:
+            graph.edge(tail, head, ltail=ltail, lhead=lhead)
+        return parent
+
+    g = graphviz.Digraph('G', filename=f'{MAIN_STAT_ACT}.dot')
+    g.attr(compound='true')
+    main_cluster = reg.clusters.pop(MAIN_STAT_ACT)
+
+    with g.subgraph(name=main_cluster.ID) as main:
+        main.attr(label=MAIN_STAT_ACT)
+        extra_edges = []
+        for label, cluster in reg.clusters.items():
+            with (main.subgraph(name=cluster.ID)) as c:
+                c.attr(label=label)
+                extra_edges += add_edges(c, cluster)
+                add_nodes(c, cluster)
+        # add main level edges after children since children add extra edges
+        add_nodes(main, main_cluster)
+        add_edges(main, main_cluster, extra_edges)
+
+        # import_nodes = [robj for robj in reg.objects if robj.obj_type in [
+        #     ObjectType.BULK, ObjectType.SURVEY]]
+        # with main.subgraph() as s:
+        #     s.attr(rank='same')
+        #     [s.node(node.id) for node in import_nodes]
 
     g.save()
 
@@ -270,18 +286,12 @@ if __name__ == "__main__":
     tr = tr[tr['Object Type'] != 'SUB TASK']
     tr = tr[tr['Kind'] != 'CONSISTENCY CHECK DEFINITION']
 
-    global dataset_register
-    dataset_register = tr[tr['Object Type'] != 'bulk_import']
-    dataset_register = dataset_register[dataset_register['Object Type']
-                                        != 'survey_import']
-    dataset_register = dataset_register[dataset_register['Object Type']
-                                        != 'COPY BETWEEN DATASETS']
-    dataset_register = dataset_register[['Order', 'Name', 'Dataset']]
-
     # get a list of the objects as dicts
     objs = convert_objects(tr)
-    # register the holding objects (Stat Act & Datasets)
-    register_holding_objs(objs)
-    # refine the objects ready for drawio
-    robjs = [RefinedObject(obj) for obj in objs]
-    create_maps(robjs)
+    # create register of refined objects
+    reg = Register()
+    [RefinedObject(obj, reg) for obj in objs]
+
+    create_maps(reg)
+
+    # TODO sort out styling of elements and figure out how to add extra info
