@@ -26,8 +26,24 @@ class ObjectType(Enum):
 def node_style(t: ObjectType) -> str:
     """Returns the node styling based on Object Type"""
     if t in [ObjectType.BULK, ObjectType.SURVEY]:
-        return {'color': 'plum', 'style': 'filled'}
+        return {'color': 'plum', 'shape': 'folder', 'style': 'filled'}
+    if t in [ObjectType.DELETE]:
+        return {'color': '#c71818', 'style': 'filled', 'shape': 'box'}
+    if t in [ObjectType.AGGREGATE]:
+        return {'color': '#dedede', 'style': 'filled', 'shape': 'house'}
+    if t in [ObjectType.PRORATE]:
+        return {'color': '#dedede', 'style': 'filled', 'shape': 'invhouse'}
+    if t in [ObjectType.FORMULA]:
+        return {'color': '#dedede', 'style': 'filled', 'shape': 'parallelogram'}
+    if t in [ObjectType.COPY_DATASETS]:
+        return {'color': '#bafcff', 'style': 'filled', 'shape': 'box'}
     return {'shape': 'box'}
+
+
+def form_label(name: str, info: str) -> str:
+    """Forms the html-like label for a node"""
+    label = f"<{name}<font color='#636363'>{info}</font>>"
+    return label
 
 
 class Register():
@@ -76,7 +92,7 @@ class Cluster():
         for robj in self.objects:
             node = dict()
             node['id'] = robj.id
-            node['label'] = robj.name
+            node['label'] = form_label(robj.name, robj.info)
             node['style'] = node_style(robj.obj_type)
             nodes.append(node)
         if nodes == []:  # add a placeholder node if there are no nodes
@@ -149,27 +165,27 @@ class RefinedObject():  # TODO tidy up the elif mess?
         """Returns the assigned info as a string per object type"""
         obj_type = self.raw['Object Type']
         if obj_type == 'bulk_import':
-            return '<br>'+('<br>').join(self.raw['Object Details'].values())
+            return '<br/>'+('<br/>').join(self.raw['Object Details'].values())
         elif obj_type == 'survey_import':
-            return '<br>'+self.raw['Object Details']['description']
+            return '<br/>'+self.raw['Object Details']['description']
         elif obj_type in ['DELETE DATA', 'COPY BETWEEN DATASETS']:
             sel_crit = []
             for key, val in self.raw['Selection Criteria'].items():
                 sel_crit.append(key + ' = ' + val)
-            return '<br>'+('<br>').join(sel_crit)
+            return '<br/>'+('<br/>').join(sel_crit)
         elif obj_type == 'FORMULA':
             details = 'Items Calculated: ['
             for key, val in self.raw['Object Details']['items to calculate'].items():
                 details += key + ": " + val + ", "
             details = details[:-2]
-            details += ']<br>Formula: '
+            details += ']<br/>Formula: '
             details += self.raw['Object Details']['formula']
-            return '<br>'+details
+            return '<br/>'+details
         elif obj_type in ['AGGREGATE', 'PRORATE']:
             details = []
             for key, val in self.raw['Object Details'].items():
                 details.append(key + ': ' + val)
-            return '<br>'+('<br>').join(details)
+            return '<br/>'+('<br/>').join(details)
         else:
             raise Exception("Unknown object type: " + obj_type)
 
