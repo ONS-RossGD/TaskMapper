@@ -52,7 +52,7 @@ def node_style(t: ObjectType) -> str:
     if t in [ObjectType.PRORATE]:
         return {'color': '#dedede', 'style': 'filled', 'shape': 'invhouse'}
     if t in [ObjectType.FORMULA]:
-        return {'color': '#dedede', 'style': 'filled', 'shape': 'parallelogram'}
+        return {'color': '#dedede', 'style': 'filled', 'shape': 'ellipse'}
     if t in [ObjectType.COPY]:
         return {'color': '#bafcff', 'style': 'filled', 'shape': 'box'}
     return {'shape': 'box'}
@@ -94,14 +94,32 @@ class RefinedObject():
     def info(self):
         """Returns the assigned info as a string per object type"""
         if self.obj_type in [ObjectType.BULK]:
-            return '<br/>'+('<br/>').join(self.raw['Object Details'].values())
+            return '<br/>'+('<br/>').join(self.raw['Object Details'].values())+self.start_end_date
         if self.obj_type in [ObjectType.SURVEY]:
-            return '<br/>'+self.raw['Object Details']['description']
-        if self.obj_type in [ObjectType.DELETE, ObjectType.COPY]:
+            return '<br/>'+self.raw['Object Details']['description']+self.start_end_date
+        if self.obj_type in [ObjectType.DELETE]:
             sel_crit = []
             for key, val in self.raw['Selection Criteria'].items():
                 sel_crit.append(key + ' = ' + val)
-            return '<br/>'+('<br/>').join(sel_crit)
+            return '<br/>Status: '+self.raw['Status']+'<br/>'+('<br/>').join(sel_crit)+self.start_end_date
+        if self.obj_type in [ObjectType.COPY]:
+            sel_crit = []
+            src_stat = self.raw['Object Details']['source dataset']['status']
+            trg_stat = self.raw['Status']
+            if src_stat == trg_stat:
+                status = 'Status: '+src_stat
+            else:
+                status = 'Status: '+src_stat+' &rarr; '+trg_stat
+            dims = dict()
+            for key, val in self.raw['Dimension Mappings'].items():
+                if '(Unmapped)' in val or '(Indirect)' in val:
+                    dims[key] = val[:-11]
+            for key, val in self.raw['Selection Criteria'].items():
+                mapping = ''
+                if dims.get(key):
+                    mapping += ' &rarr; '+dims.get(key)
+                sel_crit.append(key + ' = ' + val + mapping)
+            return '<br/>'+status+'<br/>'+('<br/>').join(sel_crit)+self.start_end_date
         if self.obj_type in [ObjectType.FORMULA]:
             details = 'Items Calculated: ['
             for key, val in self.raw['Object Details']['items to calculate'].items():
@@ -109,19 +127,19 @@ class RefinedObject():
             details = details[:-2]
             details += ']<br/>Formula: '
             details += self.raw['Object Details']['formula']
-            return '<br/>'+details
+            return '<br/>'+details+self.start_end_date
         if self.obj_type in [ObjectType.AGGREGATE, ObjectType.PRORATE]:
             details = []
             for key, val in self.raw['Object Details'].items():
                 details.append(key + ': ' + val)
-            return '<br/>'+('<br/>').join(details)
+            return '<br/>'+('<br/>').join(details)+self.start_end_date
 
     @property
     def label(self):
         """Returns an html label"""
         replace_html = {'&': '&amp;',
                         '<': '&lt;',
-                        '>': '&quot;',
+                        '>': '&gt;',
                         "'": '&#39;'
                         }
         name = self.name
@@ -157,6 +175,21 @@ class RefinedObject():
             return ObjectType.PRORATE
         else:
             raise Exception("Unknown object type: " + obj_type)
+
+    @property
+    def start_end_date(self):
+        start_date = self.raw['Start Date'].replace('n/a', '')
+        end_date = self.raw['End Date'].replace('n/a', '')
+        start_str = 'Start: ' + start_date
+        end_str = 'End: ' + end_date
+        ls = []
+        if start_date:
+            ls.append(start_str)
+        if end_date:
+            ls.append(end_str)
+        if start_date or end_date:
+            return '<br/>' + (', ').join(ls)
+        return ''
 
 
 @dataclass
@@ -252,8 +285,8 @@ def convert_objects(tr: pd.DataFrame) -> pd.DataFrame():
         s = s.replace("'", "")
         s = re.sub('{([^{}]+) = ([^{}]+)}', r'"\1": "\2"', s)
         s = re.sub(
-            '({.*?)([^ ]*?\"classification mapping\": \")(.*?)(\")(})', r'\1\3\5', s)
-        s = re.sub('{([^{}]+)-> (\(.*?\)) ?([^{}]+)}', r'"\1": "\3 \2"', s)
+            '{.*?->(.*?[^ ]*?)\"classification mapping\": \"(.*?)\"}', r'{\2->\1}', s)
+        s = re.sub('{([^{}]+)-> (\(.*?\)) ?([^{}]+)}', r'"\3": "\1 \2"', s)
         s = re.sub('{([^{}]*?)( ?\")', r'"\1": {"', s)
         s = re.sub('(\"[} ]?)\"', r'\1, "', s)
         s = '{' + s + '}'
