@@ -1,6 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 5.3 Copy Unbal Inv data from 4.3 (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"5.3.1 Unbal Inv copy BV.in ABI",CALCULATION DEFINITION,N
-1,"5.3.2 Copy BV ABI for Unbal Inv",CALCULATION DEFINITION,N

@@ -1,313 +1,225 @@
-digraph G {
+digraph "Inventories Local" {
 	compound=true
-	subgraph cluster_5c66fbd7111a4575b27de10c704d7286 {
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
 		label="Inventories Local"
-		subgraph cluster_9217135770fa4666a101c46d9700908a {
-			label="00.020 Stock Holding Period"
-			142 -> 143 [lhead="" ltail=""]
-			142 [label=<5.8.1 copy SHP for Unbal<font color='#636363'><br/>Industry = group Bottom level<br/>Asset = group Main<br/>Prices = SHP<br/>Periodicity = A</font>> color="#bafcff" shape=box style=filled]
-			143 [label=<5.8.2 Copy FLAGS for Unbal<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Prices = group FLAGS<br/>Periodicity = A</font>> color="#bafcff" shape=box style=filled]
+		3 [label=<01.101A input QSI .csv data<font color='#636363'><br/>01.101A input QSI .csv</font>> color=plum shape=folder style=filled]
+		4 [label=<01.101B input QSI .csv data<font color='#636363'><br/>01.101B input QSI .csv</font>> color=plum shape=folder style=filled]
+		5 [label=<01.102 input Industry 61 data<font color='#636363'><br/>01.102 input Industry 61 data.csv</font>> color=plum shape=folder style=filled]
+		6 [label=<01.103 input QSI .65 66 84 data<font color='#636363'><br/>01.103 input QSI .65 66 84 data.csv</font>> color=plum shape=folder style=filled]
+		7 [label=<01.104 input QSI 02 03 06 data<font color='#636363'><br/>01.104 input QSI 02 03 06 data.csv</font>> color=plum shape=folder style=filled]
+		8 [label=<01.105 input adjustment A1.2<font color='#636363'><br/>01.105 input adjustment A1.2.csv</font>> color=plum shape=folder style=filled]
+		9 [label=<01.106 input QSI Common Software<font color='#636363'><br/>QST: Quarterly Stocks Inquiry</font>> color=plum shape=folder style=filled]
+		29 [label=<02.101 Input SLEVEL data<font color='#636363'><br/>02.101 input SLEVEL data.csv</font>> color=plum shape=folder style=filled]
+		30 [label=<02.102 Input Industry 01 data<font color='#636363'><br/>02.102 input Industry 01 data.csv</font>> color=plum shape=folder style=filled]
+		31 [label=<02.103 Input Industry 06 data<font color='#636363'><br/>02.103 input Industry 06 data.csv</font>> color=plum shape=folder style=filled]
+		32 [label=<02.104 Input Industry 46 65 data<font color='#636363'><br/>02.104 Input Industry 46 65 data.csv</font>> color=plum shape=folder style=filled]
+		33 [label=<02.106 Input Ind 84 RPA data<font color='#636363'><br/>02.106 Input Ind 84 RPA data.csv</font>> color=plum shape=folder style=filled]
+		34 [label=<02.108 input adjustment A1.2<font color='#636363'><br/>02.108 input adjustment A1.2.csv</font>> color=plum shape=folder style=filled]
+		35 [label=<02.109 input Asset AN.124 data<font color='#636363'><br/>02.109 input Asset AN.124 data.csv</font>> color=plum shape=folder style=filled]
+		49 [label=<03.101A ABI MISSING data 1997<font color='#636363'><br/>03.101A ABI MISSING data 1997.csv</font>> color=plum shape=folder style=filled]
+		50 [label=<03.101B ABI MISSING data 1998<font color='#636363'><br/>03.101B ABI MISSING data 1998.csv</font>> color=plum shape=folder style=filled]
+		51 [label=<03.101C ABI MISSING data 1999<font color='#636363'><br/>03.101C ABI MISSING data 1999.csv</font>> color=plum shape=folder style=filled]
+		52 [label=<03.101D ABI MISSING data 2000<font color='#636363'><br/>03.101D ABI MISSING data 2000.csv</font>> color=plum shape=folder style=filled]
+		53 [label=<03.102 Input A1.2 Adjustments<font color='#636363'><br/>03.102 Input A1.2 Adjustments.csv</font>> color=plum shape=folder style=filled]
+		64 [label=<DEFRA data<font color='#636363'><br/>DEFRA Book Value Change Data.csv<br/>DEFRA Book Value Data 1996.csv<br/>DEFRA Crops and Stores Proportion.csv</font>> color=plum shape=folder style=filled]
+		77 [label=<00.201 Sector Industry pattern<font color='#636363'><br/>00.201 Sector Industry pattern.csv</font>> color=plum shape=folder style=filled]
+		80 [label=<07.00 SU Qual Adj<font color='#636363'><br/>07.00 SU Qual Adj.csv</font>> color=plum shape=folder style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_1f8d166f831443e185de6b24668b5398 {
+			label="01.00 QSI Industries Dataset"
+			11 [label=<01.201 Calculate SIC 38<font color='#636363'><br/>Items Calculated: [QSI Industry: 38]<br/>Formula: 99606 * 0.99</font>> color="#dedede" shape=parallelogram style=filled]
+			12 [label=<01.202 Calculate SIC 39<font color='#636363'><br/>Items Calculated: [QSI Industry: 39]<br/>Formula: 99606- 38</font>> color="#dedede" shape=parallelogram style=filled]
+			13 [label=<01.203 Aggregate to industry BL<font color='#636363'><br/>aggregate dimension: QSI Industry<br/>top level specification: group SUT Bottom level</font>> color="#dedede" shape=house style=filled]
+			14 [label=<01.204 Agg to question Asset<font color='#636363'><br/>aggregate dimension: QSI Question<br/>top level specification: group AN Output</font>> color="#dedede" shape=house style=filled]
+			15 [label=<01.205 Calculate AN.122.DW<font color='#636363'><br/>Items Calculated: [QSI Question: AN.122.DW]<br/>Formula: 260 / 2</font>> color="#dedede" shape=parallelogram style=filled]
+			16 [label=<01.206 Calculate AN.123.DW<font color='#636363'><br/>Items Calculated: [QSI Question: AN.123.DW]<br/>Formula: 260 - AN.122.DW</font>> color="#dedede" shape=parallelogram style=filled]
+			17 [label=<01.207 Calculate AN.122.ND<font color='#636363'><br/>Items Calculated: [QSI Question: AN.122.ND]<br/>Formula: 230 / 2</font>> color="#dedede" shape=parallelogram style=filled]
+			18 [label=<01.208 Calculate AN.123.ND<font color='#636363'><br/>Items Calculated: [QSI Question: AN.123.ND]<br/>Formula: 230 -AN.122.ND</font>> color="#dedede" shape=parallelogram style=filled]
+			19 [label=<01.209 Calculate measure ROUNDED<font color='#636363'><br/>Items Calculated: [Measure: ROUNDED]<br/>Formula: conround (RAW, 0)</font>> color="#dedede" shape=parallelogram style=filled]
+			20 [label=<01.210 Calculate Industry 46 RAW<font color='#636363'><br/>Items Calculated: [QSI Question: AN.123.OTHER]<br/>Formula: AN.121.OTHER + AN.122.OTHER + AN.123.OTHER</font>> color="#dedede" shape=parallelogram style=filled]
+			21 [label=<01.211 Calculate Industry 47 RAW<font color='#636363'><br/>Items Calculated: [QSI Question: AN.123.OTHER]<br/>Formula: AN.122.OTHER + AN.123.OTHER</font>> color="#dedede" shape=parallelogram style=filled]
+			22 [label=<01.212 Calc 46 47 AN.123 ROUNDED<font color='#636363'><br/>Items Calculated: [Measure: ROUNDED]<br/>Formula: conround (RAW, 0)</font>> color="#dedede" shape=parallelogram style=filled]
+			23 [label=<01.213 Calc 47 AN.121 ROUNDED<font color='#636363'><br/>Items Calculated: [Measure: ROUNDED]<br/>Formula: conround (RAW, 0)</font>> color="#dedede" shape=parallelogram style=filled]
+			24 [label=<01.214 Calculate measure OUTPUT<font color='#636363'><br/>Items Calculated: [Measure: OUTPUT]<br/>Formula: ROUNDED + A1.2</font>> color="#dedede" shape=parallelogram style=filled]
+			25 [label=<01.215 AN.125, inds 45, 46, 47<font color='#636363'><br/>QSI Industry = 45,46,47<br/>QSI Question = AN.123.OTHER<br/>Measure = OUTPUT</font>> color="#bafcff" shape=box style=filled]
 		}
-		subgraph cluster_2024fc11057a4012826831027a197771 {
-			label="00.100 Sector Breakdown"
-			cluster_2024fc11057a4012826831027a197771_ph [label="" style=invis]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_2468cfab5f094cbda82db8de627cda8b {
+			label="02.00 Other Industries dataset"
+			37 [label=<02.201 Calc 64 OTHER BVC A<font color='#636363'><br/>Items Calculated: [Periodicity: A]<br/>Formula: aggregate (Q, A, total)</font>> color="#dedede" shape=parallelogram style=filled]
+			38 [label=<02.202 Calc 01 06 OTHER BVC Q<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: round(spline (A, Q, total, $enddate),0)</font>> color="#dedede" shape=parallelogram style=filled]
+			39 [label=<02.203 Calc 01 06 64 OTHER BV Q<font color='#636363'><br/>Items Calculated: [Measure: BV, Periodicity: Q]<br/>Formula: conround(cumsum (BVC:Q, value (SLEVEL:A, $slevelyear), $slevelqtr),0)</font>> color="#dedede" shape=parallelogram style=filled]
+			40 [label=<02.204 Calculate 46 65 84 BV<font color='#636363'><br/>Items Calculated: [Measure: BV]<br/>Formula: round (PLEVEL * PRICE, 0)</font>> color="#dedede" shape=parallelogram style=filled]
+			41 [label=<02.205 Aggregate Assets to AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
+			42 [label=<02.206 agg PROP to Asset AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
+			43 [label=<02.207 Prorate from Asset AN.12<font color='#636363'><br/>measure dimension: Measure<br/>hierarchy dimension: Asset<br/>prorate item: BV<br/>pattern item: PROP<br/>top level specification: AN.12</font>> color="#dedede" shape=invhouse style=filled]
+			44 [label=<02.208 Extend A1.2 to end date<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: shape( Q, 1996q4, $enddate, zero)</font>> color="#dedede" shape=parallelogram style=filled]
+			45 [label=<02.209 Calculate measure OUTPUT<font color='#636363'><br/>Items Calculated: [Measure: OUTPUT]<br/>Formula: round( BV + A1.2, 0)</font>> color="#dedede" shape=parallelogram style=filled]
+			46 [label=<02.210 Form ind 46, AN.125<font color='#636363'><br/>Industry = 46<br/>Asset = AN.123<br/>Measure = OUTPUT<br/>Periodicity = Q</font>> color="#bafcff" shape=box style=filled]
 		}
-		subgraph cluster_1897b269d73b4fca9fb6c56ddbb101de {
-			label="3.1 Input Sector Ind Pattern"
-			45 -> 104 [lhead="" ltail=""]
-			45 [label=<3.1.1 Del 3.1 prev run data<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#c71818" shape=box style=filled]
-			104 [label=<4.6.1.1 Copy Sector Pattern Data<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_dbdd42be9d09420cb7eb6a85b263e8e0 {
+			label="03.00 ABI Adjustment"
+			54 [label=<03.201 Copy QSI quarterly data<font color='#636363'><br/>QSI Industry = group SUT Bottom level<br/>QSI Question = AN.121.OTHER, AN.122.OTHER, AN.123.OTHER<br/>Measure = OUTPUT</font>> color="#bafcff" shape=box style=filled]
+			55 [label=<03.202 Agg QSI to Annual<font color='#636363'><br/>Items Calculated: [Periodicity: A]<br/>Formula: Aggregate ( Q, A, end )</font>> color="#dedede" shape=parallelogram style=filled]
+			56 [label=<03.203 Agg QSI to Industry TOTAL<font color='#636363'><br/>aggregate dimension: Industry<br/>top level specification: TOTAL</font>> color="#dedede" shape=house style=filled]
+			57 [label=<03.204 Agg QSI to Asset AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
 		}
-		subgraph cluster_dfb2789da01b4226aca02823acaa234e {
-			label="2.5 Input Satellite Adjustments"
-			35 -> 82 [lhead="" ltail=""]
-			35 [label=<2.1.5 Del 2.5 data prev run<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Sector = *<br/>Price = *<br/>Adjustment Basis = *<br/>Seasonal Adjustment = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			82 [label=<4.4.1.1 Copy Adjustment and RP<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Sector = *<br/>Price = *<br/>Adjustment Basis = *<br/>Seasonal Adjustment = *<br/>Periodicity = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_fd47f94a4bf44680b4b42b85ed52d658 {
+			label="04.00 Adjustments for Satellite"
+			60 [label=<04.201 Agg A5.2 up Industries<font color='#636363'><br/>aggregate dimension: Industry<br/>top level specification: TOTAL</font>> color="#dedede" shape=house style=filled]
+			61 [label=<04.202 Agg A5.2 up Asset<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
+			62 [label=<04.203 Agg A5.2 up Sect<font color='#636363'><br/>aggregate dimension: Sector<br/>top level specification: ST</font>> color="#dedede" shape=house style=filled]
 		}
-		subgraph cluster_f79b826cc3c84c8899264e0e64e5d11b {
-			label="00.080 Product Pattern Input"
-			145 -> 146 [lhead="" ltail=""]
-			145 [label=<5.9.1 Copy PROP for Unbal Inv<font color='#636363'><br/>Industry = *<br/>Product = *<br/>Adjustment = R0</font>> color="#bafcff" shape=box style=filled]
-			146 [label=<5.9.2 Copy Patt Adj Unbal Inv<font color='#636363'><br/>Industry = *<br/>Product = *<br/>Adjustment = A0.1</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_a82bc75090d54166ae6ab3bf2d04a161 {
+			label="DEFRA Delivery"
+			65 [label=<DF 1.10 Calc AN.121_AN.123 BVC<font color='#636363'><br/>Items Calculated: [Asset: AN.121_AN.123, Measure: BVC, Adjustments: R1.2]<br/>Formula: AN.123:BVC:R0 / AN.12:pattern:R0</font>> color="#dedede" shape=parallelogram style=filled]
+			66 [label=<DF 1.20 Calc AN.121 BVC<font color='#636363'><br/>Items Calculated: [Asset: AN.121, Measure: BVC, Adjustments: R1.2]<br/>Formula: AN.121_AN.123:BVC:R1.2*(1-AN.12:pattern:R0)</font>> color="#dedede" shape=parallelogram style=filled]
+			67 [label=<DF 1.30 Calc AN.121_AN.123 BV<font color='#636363'><br/>Items Calculated: [Asset: AN.121_AN.123, Measure: BV, Adjustments: R1.2]<br/>Formula: AN.123:BV:R0 / AN.12:pattern:R0</font>> color="#dedede" shape=parallelogram style=filled]
+			68 [label=<DF 1.40 Calc AN.121 BV<font color='#636363'><br/>Items Calculated: [Asset: AN.121, Measure: BV, Adjustments: R1.2]<br/>Formula: AN.121_AN.123:BV:R1.2*(1-AN.12:pattern:R0)</font>> color="#dedede" shape=parallelogram style=filled]
+			69 [label=<DF 1.50 Create Q4 for 96<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: SPREAD(A, Q, END, 1996Q3)</font>> color="#dedede" shape=parallelogram style=filled]
+			70 [label=<DF 1.60 Forecast R0 to endyear<font color='#636363'><br/>Items Calculated: [Adjustments: RF]<br/>Formula: FORECAST(R0,$endyear)</font>> color="#dedede" shape=parallelogram style=filled]
+			71 [label=<DF 1.70 Forecast R1.2 to endyear<font color='#636363'><br/>Items Calculated: [Adjustments: RF]<br/>Formula: FORECAST(R1.2,$endyear)</font>> color="#dedede" shape=parallelogram style=filled]
+			72 [label=<DF 1.80 Spline to Q<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: spline(A,Q,total,$enddate)</font>> color="#dedede" shape=parallelogram style=filled]
+			73 [label=<DF 1.90 Set BVC to R1.2<font color='#636363'><br/>Items Calculated: [Adjustments: R1.2]<br/>Formula: RF</font>> color="#dedede" shape=parallelogram style=filled]
+			74 [label=<DF 1.91 Set BV to R1.2<font color='#636363'><br/>Items Calculated: [Adjustments: R1.2]<br/>Formula: R0</font>> color="#dedede" shape=parallelogram style=filled]
+			75 [label=<DF 1.110 Create BV time series<font color='#636363'><br/>Items Calculated: [Measure: BV]<br/>Formula: round(cumsum(BVC, value(BV, 1996), 1996),0)</font>> color="#dedede" shape=parallelogram style=filled]
 		}
-		subgraph cluster_f4bd55afb2484bd494d32c319a29faa8 {
-			label="00.090 Product Breakdown"
-			148 -> 149 [lhead="" ltail=""]
-			149 -> 150 [lhead="" ltail=""]
-			148 [label=<5.10.1 copy W DEF AN.122-5 Unbal<font color='#636363'><br/>Industry = group Bottom level<br/>Asset = AN.122,AN.123,AN.124,AN.125<br/>Product = group Bottom level</font>> color="#bafcff" shape=box style=filled]
-			149 [label=<5.10.2 Copy pattern for Unbal<font color='#636363'><br/>Industry = group Bottom level<br/>Asset = AN.122,AN.123,AN.124,AN.125<br/>Product = group Bottom level</font>> color="#bafcff" shape=box style=filled]
-			150 [label=<5.10.3 Copy patt CP R3.2 Unbal<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_4eb093e44d0a467eb9bb6b3fe68b5473 {
+			label="00.200 Industry Sector pattern"
+			78 [label=<90.201b 00.200 Wip to completed<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#bafcff" shape=box style=filled]
 		}
-		subgraph cluster_59a8d9e2d9d844e7b201a2e135664abc {
-			label="4.3 Process ABI Adjustment"
-			51 -> 77 [lhead="" ltail=""]
-			77 -> 78 [lhead="" ltail=""]
-			78 -> 79 [lhead="" ltail=""]
-			79 -> 128 [lhead="" ltail=""]
-			128 -> 129 [lhead="" ltail=""]
-			51 [label=<4.0.1.3 Del 4.3 Processing Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Adjustment Basis = *<br/>Source = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			77 [label=<4.3.2.1 Agg QSI to Annual<font color='#636363'><br/>Items Calculated: [Periodicity: A]<br/>Formula: Aggregate ( Q, A, end )</font>> color="#dedede" shape=parallelogram style=filled]
-			78 [label=<4.3.2.2 Agg QSI to Ind TOTAL<font color='#636363'><br/>aggregate dimension: Industry<br/>top level specification: TOTAL</font>> color="#dedede" shape=house style=filled]
-			79 [label=<4.3.2.3 Agg QSI to Asset AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
-			128 [label=<5.3.1 Unbal Inv copy BV.in ABI<font color='#636363'><br/>Industry = *<br/>Asset = AN.12<br/>Adjustment Basis = RF<br/>Source = ABI<br/>Periodicity = A</font>> color="#bafcff" shape=box style=filled]
-			129 [label=<5.3.2 Copy BV ABI for Unbal Inv<font color='#636363'><br/>Industry = *<br/>Asset = AN.12<br/>Adjustment Basis = A1.2<br/>Source = ABI<br/>Periodicity = A</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_6f29a734c63144b49001abfacd63c386 {
+			label="07.00 SU Qual adj"
+			81 [label=<07.00 Wip to completed<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = *</font>> color="#bafcff" shape=box style=filled]
 		}
-		subgraph cluster_c439861634394cfa819d3d032ec0e7a1 {
-			label="05.00 Deflator adjustments"
-			152 [label=<5.11.1 Copy UWDEF DEF for Unbal<font color='#636363'><br/>Product = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		3 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		4 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		5 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		6 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		7 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		8 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		9 -> 11 [lhead=cluster_1f8d166f831443e185de6b24668b5398 ltail=""]
+		29 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		30 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		31 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		32 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		33 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		34 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		35 -> 37 [lhead=cluster_2468cfab5f094cbda82db8de627cda8b ltail=""]
+		49 -> 54 [lhead=cluster_dbdd42be9d09420cb7eb6a85b263e8e0 ltail=""]
+		50 -> 54 [lhead=cluster_dbdd42be9d09420cb7eb6a85b263e8e0 ltail=""]
+		51 -> 54 [lhead=cluster_dbdd42be9d09420cb7eb6a85b263e8e0 ltail=""]
+		52 -> 54 [lhead=cluster_dbdd42be9d09420cb7eb6a85b263e8e0 ltail=""]
+		53 -> 54 [lhead=cluster_dbdd42be9d09420cb7eb6a85b263e8e0 ltail=""]
+		64 -> 65 [lhead=cluster_a82bc75090d54166ae6ab3bf2d04a161 ltail=""]
+		77 -> 78 [lhead=cluster_4eb093e44d0a467eb9bb6b3fe68b5473 ltail=""]
+		80 -> 81 [lhead=cluster_6f29a734c63144b49001abfacd63c386 ltail=""]
+		25 -> 54 [lhead="" ltail=cluster_1f8d166f831443e185de6b24668b5398]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_1f8d166f831443e185de6b24668b5398 {
+			label="01.00 QSI Industries Dataset"
+			11 -> 12 [lhead="" ltail=""]
+			12 -> 13 [lhead="" ltail=""]
+			13 -> 14 [lhead="" ltail=""]
+			14 -> 15 [lhead="" ltail=""]
+			15 -> 16 [lhead="" ltail=""]
+			16 -> 17 [lhead="" ltail=""]
+			17 -> 18 [lhead="" ltail=""]
+			18 -> 19 [lhead="" ltail=""]
+			19 -> 20 [lhead="" ltail=""]
+			20 -> 21 [lhead="" ltail=""]
+			21 -> 22 [lhead="" ltail=""]
+			22 -> 23 [lhead="" ltail=""]
+			23 -> 24 [lhead="" ltail=""]
+			24 -> 25 [lhead="" ltail=""]
+			25 -> 25 [lhead="" ltail=""]
 		}
-		subgraph cluster_96e4aaf5d46744c19b325d8985b58b7b {
-			label="4.7 Process SU Qual Adjustments"
-			55 -> 109 [lhead="" ltail=""]
-			109 -> 140 [lhead="" ltail=""]
-			55 [label=<4.0.1.7 Del 4.7 Processing Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = *</font>> color="#c71818" shape=box style=filled]
-			109 [label=<4.7.2.1 Wip to completed<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = *</font>> color="#bafcff" shape=box style=filled]
-			140 [label=<5.7.1 Copy VPIL.adj Unbal Inv<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = AQ</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_2468cfab5f094cbda82db8de627cda8b {
+			label="02.00 Other Industries dataset"
+			37 -> 38 [lhead="" ltail=""]
+			38 -> 39 [lhead="" ltail=""]
+			39 -> 40 [lhead="" ltail=""]
+			40 -> 41 [lhead="" ltail=""]
+			41 -> 42 [lhead="" ltail=""]
+			42 -> 43 [lhead="" ltail=""]
+			43 -> 44 [lhead="" ltail=""]
+			44 -> 45 [lhead="" ltail=""]
+			45 -> 46 [lhead="" ltail=""]
+			46 -> 46 [lhead="" ltail=""]
 		}
-		subgraph cluster_fabfd8184c2b4b1ea8342c761ac8e2bc {
-			label="1.2 Input Non-QSI"
-			20 -> 58 [lhead="" ltail=""]
-			20 [label=<1.1.1 Del previous data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			58 [label=<4.2.1.1 Copy Data Non-QSI Ind<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_dbdd42be9d09420cb7eb6a85b263e8e0 {
+			label="03.00 ABI Adjustment"
+			54 -> 55 [lhead="" ltail=""]
+			55 -> 56 [lhead="" ltail=""]
+			56 -> 57 [lhead="" ltail=""]
 		}
-		subgraph cluster_b048644aef1341b3beae0e6dfc19960d {
-			label="1.3  Input ABI"
-			21 -> 73 [lhead="" ltail=""]
-			21 [label=<1.1.2 Del previous data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Adjustment Basis = *<br/>Source = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			73 [label=<4.3.1.1 Copy Data ABI Missing<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Adjustment Basis = *<br/>Source = *<br/>Periodicity = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_6ade20e2de17459a86d8848c99320ac9 {
-			label="1.4 Input DEFRA"
-			22 -> 89 [lhead="" ltail=""]
-			22 [label=<1.1.3 Del previous data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *<br/>Adjustments = *</font>> color="#c71818" shape=box style=filled]
-			89 [label=<4.5.1.1 Copy DEFRA Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *<br/>Adjustments = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_759105776b024fb08a3d361f4302e1a4 {
-			label="1.1 Input QSI"
-			cluster_759105776b024fb08a3d361f4302e1a4_ph [label="" style=invis]
-		}
-		subgraph cluster_4ca27ce84f82480485039cacb6638945 {
-			label="2.1 Input Adjustment QSI A1.2"
-			31 [label=<2.1.1 Del 2.1 prev run data<font color='#636363'><br/>QSI Industry = *<br/>QSI Question = *<br/>Measure = *</font>> color="#c71818" shape=box style=filled]
-		}
-		subgraph cluster_df0b8881adb447ababc9e6a67a2daae7 {
-			label="2.2 Input Adjustment NonQSI A1.2"
-			32 -> 59 [lhead="" ltail=""]
-			32 [label=<2.1.2 Del 2.2 prev run data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			59 [label=<4.2.1.2 Copy Adj Non-QSI A1.2<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_e1907506e49c49d88f7b0d7e21138428 {
-			label="2.3 Input Adjustment ABI A1.2"
-			33 -> 74 [lhead="" ltail=""]
-			33 [label=<2.1.3 Del 2.3 prev run data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Adjustment Basis = *<br/>Source = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			74 [label=<4.3.1.2 Copy Adjustment A1.2 ABI<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Adjustment Basis = *<br/>Source = *<br/>Periodicity = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_6cb2ff270eab457eb659004c4200c8c3 {
-			label="2.4 Input Adjustment SU Quality"
-			34 -> 107 [lhead="" ltail=""]
-			34 [label=<2.1.4 Del 2.4 prev run data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = *</font>> color="#c71818" shape=box style=filled]
-			107 [label=<4.7.1.1 Copy Quality Adjust SU<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Product = *<br/>Price = *<br/>Adjustment Basis = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_620a988569d449cabba2368c98fce4a4 {
-			label="4.1 Process QSI Industries"
-			49 [label=<4.0.1.1 Del 4.1 Processing Data<font color='#636363'><br/>QSI Industry = *<br/>QSI Question = *<br/>Measure = *</font>> color="#c71818" shape=box style=filled]
-		}
-		subgraph cluster_737e66823a074e569214cd327e5e964a {
-			label="4.2 Process Non-QSI Industries"
-			50 -> 61 [lhead="" ltail=""]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_fd47f94a4bf44680b4b42b85ed52d658 {
+			label="04.00 Adjustments for Satellite"
+			60 -> 61 [lhead="" ltail=""]
 			61 -> 62 [lhead="" ltail=""]
-			62 -> 63 [lhead="" ltail=""]
-			63 -> 64 [lhead="" ltail=""]
-			64 -> 65 [lhead="" ltail=""]
+		}
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_a82bc75090d54166ae6ab3bf2d04a161 {
+			label="DEFRA Delivery"
 			65 -> 66 [lhead="" ltail=""]
 			66 -> 67 [lhead="" ltail=""]
 			67 -> 68 [lhead="" ltail=""]
 			68 -> 69 [lhead="" ltail=""]
 			69 -> 70 [lhead="" ltail=""]
-			70 -> 124 [lhead="" ltail=""]
-			124 -> 125 [lhead="" ltail=""]
-			125 -> 126 [lhead="" ltail=""]
-			50 [label=<4.0.1.2 Del 4.2 Processing Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-			61 [label=<4.2.2.1 Calc 64 OTHER BVC A<font color='#636363'><br/>Items Calculated: [Periodicity: A]<br/>Formula: aggregate (Q, A, total)</font>> color="#dedede" shape=parallelogram style=filled]
-			62 [label=<4.2.2.2 Calc 01 06 OTHER BVC Q<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: round(spline (A, Q, total, $enddate),0)</font>> color="#dedede" shape=parallelogram style=filled]
-			63 [label=<4.2.2.3 Calc 01 06 64 OTHER BV Q<font color='#636363'><br/>Items Calculated: [Measure: BV, Periodicity: Q]<br/>Formula: conround(cumsum (BVC:Q, value (SLEVEL:A, $slevelyear), $slevelqtr),0)</font>> color="#dedede" shape=parallelogram style=filled]
-			64 [label=<4.2.2.4 Calculate 46 65 84 BV<font color='#636363'><br/>Items Calculated: [Measure: BV]<br/>Formula: round (PLEVEL * PRICE, 0)</font>> color="#dedede" shape=parallelogram style=filled]
-			65 [label=<4.2.2.5 Agg Assets to AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
-			66 [label=<4.2.2.6 Agg PROP to Asset AN.12<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
-			67 [label=<4.2.2.7 Prorate from Asset AN.12<font color='#636363'><br/>measure dimension: Measure<br/>hierarchy dimension: Asset<br/>prorate item: BV<br/>pattern item: PROP<br/>top level specification: AN.12</font>> color="#dedede" shape=invhouse style=filled]
-			68 [label=<4.2.2.8 Extend A1.2 to end date<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: shape( Q, 1996q4, $enddate, zero)</font>> color="#dedede" shape=parallelogram style=filled]
-			69 [label=<4.2.2.9 Calc measure OUTPUT<font color='#636363'><br/>Items Calculated: [Measure: OUTPUT]<br/>Formula: round( BV + A1.2, 0)</font>> color="#dedede" shape=parallelogram style=filled]
-			70 [label=<4.2.2.10 Form Ind 46, AN.125<font color='#636363'><br/>Industry = 46<br/>Asset = AN.123<br/>Measure = OUTPUT<br/>Periodicity = Q</font>> color="#bafcff" shape=box style=filled]
-			124 [label=<5.2.1 Copy BV Other Unbal Inv<font color='#636363'><br/>Industry = group Bottom level<br/>Asset = group Main<br/>Measure = OUTPUT<br/>Periodicity = Q</font>> color="#bafcff" shape=box style=filled]
-			125 [label=<5.2.2 Copy BV Other AN123 Unbal<font color='#636363'><br/>Industry = 65.1-2,65.3,84<br/>Asset = AN.123<br/>Measure = OUTPUT<br/>Periodicity = Q</font>> color="#bafcff" shape=box style=filled]
-			126 [label=<5.2.3 Copy BV Other AN125 Unbal<font color='#636363'><br/>Industry = 46<br/>Asset = AN.125<br/>Measure = OUTPUT<br/>Periodicity = Q</font>> color="#bafcff" shape=box style=filled]
+			70 -> 71 [lhead="" ltail=""]
+			71 -> 72 [lhead="" ltail=""]
+			72 -> 73 [lhead="" ltail=""]
+			73 -> 74 [lhead="" ltail=""]
+			74 -> 75 [lhead="" ltail=""]
 		}
-		subgraph cluster_a015e5d3b09143e1ad1aa170a1b369f7 {
-			label="4.4 Process Satellite Adjustment"
-			52 -> 84 [lhead="" ltail=""]
-			84 -> 85 [lhead="" ltail=""]
-			85 -> 86 [lhead="" ltail=""]
-			86 -> 131 [lhead="" ltail=""]
-			131 -> 132 [lhead="" ltail=""]
-			132 -> 154 [lhead="" ltail=""]
-			154 -> 156 [lhead="" ltail=""]
-			52 [label=<4.0.1.4 Del 4.4 Processing Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Sector = *<br/>Price = *<br/>Adjustment Basis = *<br/>Seasonal Adjustment = *<br/>Periodicity = *<br/>Product = *</font>> color="#c71818" shape=box style=filled]
-			84 [label=<4.4.2.1 Agg A5.2 up Industries<font color='#636363'><br/>aggregate dimension: Industry<br/>top level specification: TOTAL</font>> color="#dedede" shape=house style=filled]
-			85 [label=<4.4.2.2 Agg A5.2 up Asset<font color='#636363'><br/>aggregate dimension: Asset<br/>top level specification: AN.12</font>> color="#dedede" shape=house style=filled]
-			86 [label=<4.4.2.3 Agg A5.2 up Sector<font color='#636363'><br/>aggregate dimension: Sector<br/>top level specification: ST</font>> color="#dedede" shape=house style=filled]
-			131 [label=<5.4.1 Copy VPIC CP RP for Unbal<font color='#636363'><br/>Industry = group Published Bottom Level<br/>Asset = group Main<br/>Sector = S1<br/>Price = CP<br/>Adjustment Basis = RP<br/>Seasonal Adjustment = NSA<br/>Periodicity = Q<br/>Product = TOTAL</font>> color="#bafcff" shape=box style=filled]
-			132 [label=<5.4.2 copy VPIC CP AQ Unbal<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Sector = ST<br/>Price = CP<br/>Adjustment Basis = AQ<br/>Seasonal Adjustment = NSA<br/>Periodicity = Q<br/>Product = TOTAL</font>> color="#bafcff" shape=box style=filled]
-			154 [label=<5.12.1 Delete Completed 4.4<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Sector = *<br/>Price = *<br/>Adjustment Basis = *<br/>Seasonal Adjustment = *<br/>Periodicity = *<br/>Product = *</font>> color="#c71818" shape=box style=filled]
-			156 [label=<5.12.3 Copy to Completed 4.4<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Sector = *<br/>Price = *<br/>Adjustment Basis = *<br/>Seasonal Adjustment = *<br/>Periodicity = *<br/>Product = *</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_4eb093e44d0a467eb9bb6b3fe68b5473 {
+			label="00.200 Industry Sector pattern"
+			78 -> 78 [lhead="" ltail=""]
 		}
-		subgraph cluster_e3922e94766d4cbe9f90b64ff3e46939 {
-			label="4.5 Process DEFRA Delivery"
-			53 -> 91 [lhead="" ltail=""]
-			91 -> 92 [lhead="" ltail=""]
-			92 -> 93 [lhead="" ltail=""]
-			93 -> 94 [lhead="" ltail=""]
-			94 -> 95 [lhead="" ltail=""]
-			95 -> 96 [lhead="" ltail=""]
-			96 -> 97 [lhead="" ltail=""]
-			97 -> 98 [lhead="" ltail=""]
-			98 -> 99 [lhead="" ltail=""]
-			99 -> 100 [lhead="" ltail=""]
-			100 -> 101 [lhead="" ltail=""]
-			101 -> 134 [lhead="" ltail=""]
-			134 -> 135 [lhead="" ltail=""]
-			135 -> 136 [lhead="" ltail=""]
-			53 [label=<4.0.1.5 Del 4.5 Processing Data<font color='#636363'><br/>Industry = *<br/>Asset = *<br/>Measure = *<br/>Periodicity = *<br/>Adjustments = *</font>> color="#c71818" shape=box style=filled]
-			91 [label=<4.5.2.1 DF Calc AN.121_AN.123 BV<font color='#636363'><br/>Items Calculated: [Asset: AN.121_AN.123, Measure: BVC, Adjustments: R1.2]<br/>Formula: AN.123:BVC:R0 / AN.12:pattern:R0</font>> color="#dedede" shape=parallelogram style=filled]
-			92 [label=<4.5.2.2 DF Calc AN.121 BVC<font color='#636363'><br/>Items Calculated: [Asset: AN.121, Measure: BVC, Adjustments: R1.2]<br/>Formula: AN.121_AN.123:BVC:R1.2*(1-AN.12:pattern:R0)</font>> color="#dedede" shape=parallelogram style=filled]
-			93 [label=<4.5.2.3 DF Calc AN.121_AN.123 BV<font color='#636363'><br/>Items Calculated: [Asset: AN.121_AN.123, Measure: BV, Adjustments: R1.2]<br/>Formula: AN.123:BV:R0 / AN.12:pattern:R0</font>> color="#dedede" shape=parallelogram style=filled]
-			94 [label=<4.5.2.4 DF Calc AN.121 BV<font color='#636363'><br/>Items Calculated: [Asset: AN.121, Measure: BV, Adjustments: R1.2]<br/>Formula: AN.121_AN.123:BV:R1.2*(1-AN.12:pattern:R0)</font>> color="#dedede" shape=parallelogram style=filled]
-			95 [label=<4.5.2.5 DF Create Q4 for 96<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: SPREAD(A, Q, END, 1996Q4)</font>> color="#dedede" shape=parallelogram style=filled]
-			96 [label=<4.5.2.6 DF Forecast R0 endyear<font color='#636363'><br/>Items Calculated: [Adjustments: RF]<br/>Formula: FORECAST(R0,$endyear)</font>> color="#dedede" shape=parallelogram style=filled]
-			97 [label=<4.5.2.7 DF Forecast R1.2 endyear<font color='#636363'><br/>Items Calculated: [Adjustments: RF]<br/>Formula: FORECAST(R1.2,$endyear)</font>> color="#dedede" shape=parallelogram style=filled]
-			98 [label=<4.5.2.8 DF Spline to Q<font color='#636363'><br/>Items Calculated: [Periodicity: Q]<br/>Formula: spline(A,Q,total,$enddate)</font>> color="#dedede" shape=parallelogram style=filled]
-			99 [label=<4.5.2.9 DF Set BVC to R1.2<font color='#636363'><br/>Items Calculated: [Adjustments: R1.2]<br/>Formula: RF</font>> color="#dedede" shape=parallelogram style=filled]
-			100 [label=<4.5.2.10 DF Set BV to R1.2<font color='#636363'><br/>Items Calculated: [Adjustments: R1.2]<br/>Formula: R0</font>> color="#dedede" shape=parallelogram style=filled]
-			101 [label=<4.5.2.11 DF Create BV timeseries<font color='#636363'><br/>Items Calculated: [Measure: BV]<br/>Formula: round(cumsum(BVC, value(BV, 1996), 1996),0)</font>> color="#dedede" shape=parallelogram style=filled]
-			134 [label=<5.5.1 copy BVC Other for Unbal<font color='#636363'><br/>Industry = 01<br/>Asset = AN.121,AN.122,AN.123<br/>Measure = BVC<br/>Periodicity = Q<br/>Adjustments = R1.2</font>> color="#bafcff" shape=box style=filled]
-			135 [label=<5.5.2 Copy BV Other 96Q4 Unbal<font color='#636363'><br/>Industry = 01<br/>Asset = AN.121,AN.122,AN.123<br/>Measure = BV<br/>Periodicity = *<br/>Adjustments = R1.2</font>> color="#bafcff" shape=box style=filled]
-			136 [label=<5.5.3  Copy BV Other for Unbal<font color='#636363'><br/>Industry = 01<br/>Asset = AN.121,AN.122,AN.123<br/>Measure = BV<br/>Periodicity = A<br/>Adjustments = R1.2</font>> color="#bafcff" shape=box style=filled]
+	}
+	subgraph cluster_8a45983ddd324ffeadcb190e142326ce {
+		label="Inventories Local"
+		subgraph cluster_6f29a734c63144b49001abfacd63c386 {
+			label="07.00 SU Qual adj"
+			81 -> 81 [lhead="" ltail=""]
 		}
-		subgraph cluster_5a3277acfc554696869c40e320e6abd5 {
-			label="4.6 Process Ind Sector Pattern"
-			54 -> 138 [lhead="" ltail=""]
-			138 -> 155 [lhead="" ltail=""]
-			155 -> 157 [lhead="" ltail=""]
-			54 [label=<4.0.1.6 Del 4.6 Processing Data<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#c71818" shape=box style=filled]
-			138 [label=<5.6.1 Copy Ind Sec Patt Unbal<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#bafcff" shape=box style=filled]
-			155 [label=<5.12.2 Delete Completed 4.6<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#c71818" shape=box style=filled]
-			157 [label=<5.12.4 Copy to Completed 4.6<font color='#636363'><br/>Industry = *<br/>Sector = *<br/>Measure = *</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_3ff4ea5c15914366b941c8892c3bb1a7 {
-			label="TEMP Legacy QSI"
-			75 -> 121 [lhead="" ltail=""]
-			121 -> 122 [lhead="" ltail=""]
-			75 [label=<t4.3.1.3 Copy QSI quarterly data<font color='#636363'><br/>QSI Industry = group SUT Bottom level<br/>QSI Question = AN.121.OTHER, AN.122.OTHER, AN.123.OTHER<br/>Measure = OUTPUT</font>> color="#bafcff" shape=box style=filled]
-			121 [label=<t5.1.1 Copy BV QSI for Unbal Inv<font color='#636363'><br/>QSI Industry = group SUT Bottom level exc 45 46 47<br/>QSI Question = group AN Output<br/>Measure = OUTPUT</font>> color="#bafcff" shape=box style=filled]
-			122 [label=<t5.1.2 Copy BV QSI for Unbal Inv<font color='#636363'><br/>QSI Industry = 45,46,47<br/>QSI Question = group AN Output inc AN.125 exc 123.OTH<br/>Measure = OUTPUT</font>> color="#bafcff" shape=box style=filled]
-		}
-		subgraph cluster_1f18e4e55f6244498c857d2ec0056901 {
-			label="5.1 Output Unbalanced Invent"
-			119 [label=<5.0.1.1 Delete prev task data<font color='#636363'><br/>Industry = *<br/>Product = *<br/>Asset = *<br/>Sector = *<br/>Measure = *<br/>Source = *<br/>Adjustment Basis = *<br/>Price = *<br/>Periodicity = *</font>> color="#c71818" shape=box style=filled]
-		}
-		2 [label=<00.021 Stock Holding Periods<font color='#636363'><br/>00.021 Stock Holding Periods.csv</font>> color=plum shape=folder style=filled]
-		3 [label=<00.022 Industry 84 deflator<font color='#636363'><br/>00.022 Industry 84 deflator.csv</font>> color=plum shape=folder style=filled]
-		4 [label=<00.023 Industry 46 deflator<font color='#636363'><br/>00.023 Industry 46 deflator.csv</font>> color=plum shape=folder style=filled]
-		5 [label=<00.101 Sector Breakdown<font color='#636363'><br/>00.101 Sector breakdown.csv</font>> color=plum shape=folder style=filled]
-		6 [label=<3.2.1 Pattern Sector Industry<font color='#636363'><br/>00.201 Sector Industry pattern.csv</font>> color=plum shape=folder style=filled]
-		7 [label=<2.2.5 Adjustment AQ for Pre SUT<font color='#636363'><br/>Adj AQ for Pre SUT.csv</font>> color=plum shape=folder style=filled]
-		8 [label=<2.2.6 Adjustment A4.2 Balanced<font color='#636363'><br/>A4.2 Adjusts for Balanced.csv</font>> color=plum shape=folder style=filled]
-		9 [label=<00.080 Product Pattern Input<font color='#636363'><br/>Product Pattern.csv<br/>A01 Adjustments.csv</font>> color=plum shape=folder style=filled]
-		10 [label=<00.091 Product breakdown<font color='#636363'><br/>PRODUCT BREAKDOWN.csv</font>> color=plum shape=folder style=filled]
-		11 [label=<03.102 Input A1.2 Adjustments<font color='#636363'><br/>03.102 Input A1.2 Adjustments.csv</font>> color=plum shape=folder style=filled]
-		12 [label=<2.2.7 Adjustment A5.2 Balanced<font color='#636363'><br/>A5.2 Adjusts for Balanced.csv</font>> color=plum shape=folder style=filled]
-		13 [label=<2.2.8 Adjustment RP data<font color='#636363'><br/>RP data.csv</font>> color=plum shape=folder style=filled]
-		14 [label=<05.00 Deflator adjustments<font color='#636363'><br/>05.00 Deflator adjustments.csv</font>> color=plum shape=folder style=filled]
-		15 [label=<07.00 SU Qual Adj<font color='#636363'><br/>07.00 SU Qual Adj.csv</font>> color=plum shape=folder style=filled]
-		17 [label=<00.020 Deflator FLAGS<font color='#636363'><br/>flags import.csv</font>> color=plum shape=folder style=filled]
-		24 [label=<1.2.1 Data - QSI<font color='#636363'><br/>01.101A input QSI .csv<br/>01.101B input QSI .csv<br/>01.102 input Industry 61 data.csv<br/>01.103 input QSI .65 66 84 data.csv<br/>01.104 input QSI 02 03 06 data.csv</font>> color=plum shape=folder style=filled]
-		25 [label=<1.2.2 Data - QSI<font color='#636363'><br/>QST: Quarterly Stocks Inquiry</font>> color=plum shape=folder style=filled]
-		26 [label=<1.2.3 Data - Non-QSI<font color='#636363'><br/>02.101 input SLEVEL data.csv<br/>02.102 input Industry 01 data.csv<br/>02.103 input Industry 06 data.csv<br/>02.104 Input Industry 46 65 data.csv<br/>02.106 Input Ind 84 RPA data.csv</font>> color=plum shape=folder style=filled]
-		27 [label=<1.2.4 Data - Non-QSI<font color='#636363'><br/>02.109 input Asset AN.124 data.csv</font>> color=plum shape=folder style=filled]
-		28 [label=<1.2.5 Data - ABI Missing<font color='#636363'><br/>03.101A ABI MISSING data 1997.csv<br/>03.101B ABI MISSING data 1998.csv<br/>03.101C ABI MISSING data 1999.csv<br/>03.101D ABI MISSING data 2000.csv</font>> color=plum shape=folder style=filled]
-		29 [label=<1.2.6 Data - DEFRA<font color='#636363'><br/>DEFRA Crops and Stores Proportion.csv<br/>DEFRA Book Value Change Data.csv<br/>DEFRA Book Value Data 1996.csv</font>> color=plum shape=folder style=filled]
-		36 [label=<2.2.1 Adjustment - A1.2 QSI<font color='#636363'><br/>01.105 input adjustment A1.2.csv</font>> color=plum shape=folder style=filled]
-		37 [label=<2.2.2 Adjustment - A1.2 Non-QSI<font color='#636363'><br/>02.108 input adjustment A1.2.csv</font>> color=plum shape=folder style=filled]
-		38 [label=<2.2.3 Adjustment - A1.2 ABI<font color='#636363'><br/>03.102 Input A1.2 Adjustments.csv</font>> color=plum shape=folder style=filled]
-		39 [label=<2.2.4 Adjustment - SU Quality<font color='#636363'><br/>07.00 SU Qual Adj.csv</font>> color=plum shape=folder style=filled]
-		40 [label=<2.2.5 Adjustment AQ for Pre SUT<font color='#636363'><br/>Adj AQ for Pre SUT.csv</font>> color=plum shape=folder style=filled]
-		41 [label=<2.2.6 Adjustment A4.2 Balanced<font color='#636363'><br/>A4.2 Adjusts for Balanced.csv</font>> color=plum shape=folder style=filled]
-		42 [label=<2.2.7 Adjustment A5.2 Balanced<font color='#636363'><br/>A5.2 Adjusts for Balanced.csv</font>> color=plum shape=folder style=filled]
-		43 [label=<2.2.8 Adjustment RP data<font color='#636363'><br/>RP data.csv</font>> color=plum shape=folder style=filled]
-		46 [label=<3.2.1 Pattern Sector Industry<font color='#636363'><br/>00.201 Sector Industry pattern.csv</font>> color=plum shape=folder style=filled]
-		2 -> 142 [lhead=cluster_9217135770fa4666a101c46d9700908a ltail=""]
-		3 -> 142 [lhead=cluster_9217135770fa4666a101c46d9700908a ltail=""]
-		4 -> 142 [lhead=cluster_9217135770fa4666a101c46d9700908a ltail=""]
-		5 -> cluster_2024fc11057a4012826831027a197771_ph [lhead=cluster_2024fc11057a4012826831027a197771 ltail=""]
-		6 -> 45 [lhead=cluster_1897b269d73b4fca9fb6c56ddbb101de ltail=""]
-		7 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		8 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		9 -> 145 [lhead=cluster_f79b826cc3c84c8899264e0e64e5d11b ltail=""]
-		10 -> 148 [lhead=cluster_f4bd55afb2484bd494d32c319a29faa8 ltail=""]
-		11 -> 51 [lhead=cluster_59a8d9e2d9d844e7b201a2e135664abc ltail=""]
-		12 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		13 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		14 -> 152 [lhead=cluster_c439861634394cfa819d3d032ec0e7a1 ltail=""]
-		15 -> 55 [lhead=cluster_96e4aaf5d46744c19b325d8985b58b7b ltail=""]
-		17 -> 142 [lhead=cluster_9217135770fa4666a101c46d9700908a ltail=""]
-		24 -> cluster_759105776b024fb08a3d361f4302e1a4_ph [lhead=cluster_759105776b024fb08a3d361f4302e1a4 ltail=""]
-		25 -> cluster_759105776b024fb08a3d361f4302e1a4_ph [lhead=cluster_759105776b024fb08a3d361f4302e1a4 ltail=""]
-		26 -> 20 [lhead=cluster_fabfd8184c2b4b1ea8342c761ac8e2bc ltail=""]
-		27 -> 20 [lhead=cluster_fabfd8184c2b4b1ea8342c761ac8e2bc ltail=""]
-		28 -> 21 [lhead=cluster_b048644aef1341b3beae0e6dfc19960d ltail=""]
-		29 -> 22 [lhead=cluster_6ade20e2de17459a86d8848c99320ac9 ltail=""]
-		36 -> 31 [lhead=cluster_4ca27ce84f82480485039cacb6638945 ltail=""]
-		37 -> 32 [lhead=cluster_df0b8881adb447ababc9e6a67a2daae7 ltail=""]
-		38 -> 33 [lhead=cluster_e1907506e49c49d88f7b0d7e21138428 ltail=""]
-		39 -> 34 [lhead=cluster_6cb2ff270eab457eb659004c4200c8c3 ltail=""]
-		40 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		41 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		42 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		43 -> 35 [lhead=cluster_dfb2789da01b4226aca02823acaa234e ltail=""]
-		46 -> 45 [lhead=cluster_1897b269d73b4fca9fb6c56ddbb101de ltail=""]
-		142 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		143 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		104 -> 54 [lhead=cluster_5a3277acfc554696869c40e320e6abd5 ltail=""]
-		82 -> 52 [lhead=cluster_a015e5d3b09143e1ad1aa170a1b369f7 ltail=""]
-		145 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		146 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		148 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		149 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		150 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		128 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		129 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		152 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		109 -> 55 [lhead=cluster_96e4aaf5d46744c19b325d8985b58b7b ltail=""]
-		140 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		58 -> 50 [lhead=cluster_737e66823a074e569214cd327e5e964a ltail=""]
-		73 -> 51 [lhead=cluster_59a8d9e2d9d844e7b201a2e135664abc ltail=""]
-		89 -> 53 [lhead=cluster_e3922e94766d4cbe9f90b64ff3e46939 ltail=""]
-		59 -> 50 [lhead=cluster_737e66823a074e569214cd327e5e964a ltail=""]
-		74 -> 51 [lhead=cluster_59a8d9e2d9d844e7b201a2e135664abc ltail=""]
-		107 -> 55 [lhead=cluster_96e4aaf5d46744c19b325d8985b58b7b ltail=""]
-		70 -> 50 [lhead=cluster_737e66823a074e569214cd327e5e964a ltail=""]
-		124 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		125 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		126 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		131 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		132 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		156 -> 52 [lhead=cluster_a015e5d3b09143e1ad1aa170a1b369f7 ltail=""]
-		134 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		135 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		136 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		138 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		157 -> 54 [lhead=cluster_5a3277acfc554696869c40e320e6abd5 ltail=""]
-		75 -> 51 [lhead=cluster_59a8d9e2d9d844e7b201a2e135664abc ltail=""]
-		121 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
-		122 -> 119 [lhead=cluster_1f18e4e55f6244498c857d2ec0056901 ltail=""]
 	}
 }

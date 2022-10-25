@@ -1,8 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 5.12 Copy Bal Deliveries to Comp (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"5.12.1 Delete Completed 4.4",CALCULATION DEFINITION,N
-1,"5.12.2 Delete Completed 4.6",CALCULATION DEFINITION,N
-2,"5.12.3 Copy to Completed 4.4",CALCULATION DEFINITION,N
-3,"5.12.4 Copy to Completed 4.6",CALCULATION DEFINITION,N

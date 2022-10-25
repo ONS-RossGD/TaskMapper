@@ -1,15 +1,15 @@
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import re
-from typing import List, Optional, Tuple
+import sys
+from typing import List, Tuple
 import uuid
 import pandas as pd
 import json
 import graphviz
+from PyQt5.QtWidgets import QApplication, QFileDialog
 
-# TASK_REPORT_PATH = r"Inventories Local_Task_Report_INT23_05_Oct_2022\00_00_Supertask_051016540.csv"
-# TASK_REPORT_PATH = r"Balanced Inventories_Task_Report_INT23_11_Oct_2022\A__INV_BALANCED__TASK_(Con)_111012552.csv"
-TASK_REPORT_PATH = r"Unbalanced Inventories_Task_Report_INT23_11_Oct_2022\A__Inventories_Satellite_1110195925.csv"
+# helpful graphviz video here: https://www.youtube.com/watch?v=MR6-TYelgkI
 
 
 class ObjectType(Enum):
@@ -30,6 +30,7 @@ class Edge():
     head: str
     ltail: str
     lhead: str
+    tooltip: str
 
 
 @dataclass
@@ -45,7 +46,7 @@ def node_style(t: ObjectType) -> str:
     if t in [ObjectType.BULK, ObjectType.SURVEY]:
         return {'color': 'plum', 'shape': 'folder', 'style': 'filled'}
     if t in [ObjectType.DELETE]:
-        return {'color': '#c71818', 'style': 'filled', 'shape': 'box'}
+        return {'color': '#ff7663', 'style': 'filled', 'shape': 'box'}
     if t in [ObjectType.AGGREGATE]:
         return {'color': '#dedede', 'style': 'filled', 'shape': 'house'}
     if t in [ObjectType.PRORATE]:
@@ -132,8 +133,8 @@ class RefinedObject():
     def dataset(self):
         """Returns the objects holding dataset"""
         dataset = self.raw['Dataset']
-        if self.obj_type in [ObjectType.COPY]:
-            dataset = self.raw['Object Details']['source dataset']['name']
+        # if self.obj_type in [ObjectType.COPY]:
+        #     dataset = self.raw['Object Details']['source dataset']['name']
         return dataset
 
     @property
@@ -201,7 +202,8 @@ class Cluster():
                     robj.id,
                     first_node,
                     '',
-                    self.reg.clusters[cluster_ref].ID
+                    self.reg.clusters[cluster_ref].ID,
+                    robj.name + ' -> ' + cluster_ref
                 ))
             # same as above for copy calcs
             if robj.obj_type in [ObjectType.COPY]:
@@ -210,16 +212,12 @@ class Cluster():
                 cluster_ref = sa+'/'+dataset
                 try:
                     last_node = self.reg.clusters[cluster_ref].nodes[cluster_ref][-1].ID
-                except KeyError:
-                    self.reg.clusters[cluster_ref] = Cluster(
-                        self.reg)
-                    last_node = self.reg.clusters[cluster_ref].nodes[cluster_ref][-1].ID
                 except IndexError:
                     last_node = self.reg.clusters[cluster_ref].ID+'_ph'
                 # if the copy calc is copying to the same dataset
                 if cluster_ref == self.path:
                     _add_edge(edges, cluster_ref, Edge(
-                        robj.id, robj.id, '', ''))
+                        robj.id, robj.id, '', '', robj.name + ' -> ' + robj.name))
                 # if the source and target datasets are from the same stat act
                 elif cluster_ref.split('/')[0] == self.path.split('/')[0]:
                     # edge at sa level
@@ -227,7 +225,8 @@ class Cluster():
                         last_node,
                         robj.id,
                         self.reg.clusters[cluster_ref].ID,
-                        ''
+                        '',
+                        cluster_ref + ' -> ' + robj.name
                     ))
                 else:
                     # edge at root level
@@ -235,12 +234,13 @@ class Cluster():
                         last_node,
                         robj.id,
                         self.reg.clusters[cluster_ref].ID,
-                        ''
+                        '',
+                        cluster_ref + ' -> ' + robj.name
                     ))
 
             if i+1 < len(self.objects) and robj.obj_type not in [ObjectType.BULK, ObjectType.SURVEY]:
                 _add_edge(edges, self.path,
-                          Edge(robj.id, self.objects[i+1].id, '', ''))
+                          Edge(robj.id, self.objects[i+1].id, '', '', robj.name + ' -> ' + self.objects[i+1].name))
         return edges
 
 
@@ -277,30 +277,21 @@ def convert_objects(tr: pd.DataFrame) -> pd.DataFrame():
     return objs
 
 
-def get_main_stat_act() -> str:
-    """Returns the name of the main Stat Act from the task report"""
-    df = pd.read_csv(
-        TASK_REPORT_PATH,
-        encoding='unicode_escape',
-        header=None,
-        skiprows=2,
-        nrows=1
-    )
-    return df.iloc[0, 0].split('Statistical Activity: ')[-1].split('Mode')[0].strip()
-
-
 def split_dataset_stat_act(dataset: str) -> Tuple[str, str]:
-    sa_found = re.search('(.*?)( ?)\(from (.*?)\)', dataset)
-    sa = get_main_stat_act()
+    sa_found = re.search('(.*?)( ?)\(from (.*)\)', dataset)
+    sa = MAIN_STAT_ACT
     if sa_found:  # if an external stat act is found use it and seperate the dataset
         dataset = sa_found.group(1)
         sa = sa_found.group(3)
+    if '/' in sa:
+        split = sa.split('/')
+        sa = split[0] + ' (Mode: ' + split[1] + ')'
     return sa, dataset
 
 
 def get_cluster_hierarchy(objs: List):
     """Creates the clusters for later mapping"""
-    main_sa = get_main_stat_act()
+    main_sa = MAIN_STAT_ACT
     clusters = dict({main_sa: {'datasets': {}, 'objects': []}})
 
     for obj in objs:
@@ -308,9 +299,12 @@ def get_cluster_hierarchy(objs: List):
         # copy calcs can reference a source dataset which will need a cluster
         # however we don't want the copy calc to sit in the source dataset so
         # the obj_id is not added
-        if obj['Object Type'] == "COPY BETWEEN DATASETS":
+        if obj['Object Type'] in ["COPY BETWEEN DATASETS", "COPY BETWEEN MODES"]:
             sa, dataset = split_dataset_stat_act(
                 obj['Object Details']['source dataset']['name'])
+            # Extra substitution as copy between modes has "/" which conflicts with path
+            dataset = re.sub(
+                '(.*)(\(from )([^\/]*)\/(.*?)\)', r'\1\2\3 (\4))', dataset)
             if not clusters.get(sa):  # if sa doesn't exist yet create it and add dataset
                 clusters[sa] = {'datasets': {}, 'objects': []}
                 clusters[sa]['datasets'] = {dataset: []}
@@ -334,14 +328,16 @@ def get_cluster_hierarchy(objs: List):
                 clusters[main_sa]['datasets'][obj['Dataset']] = [obj_id]
             else:
                 clusters[main_sa]['datasets'][obj['Dataset']] += [obj_id]
-
     return clusters
 
 
-def create_map(reg: Register):
+def create_map(reg: Register, save_path: str):
     """"""
     nodes = dict()
     edges = dict()
+
+    if save_path[-4:] != '.dot':
+        save_path += '.dot'
 
     def add_nodes(n: dict):
         for key, vals in n.items():
@@ -355,9 +351,10 @@ def create_map(reg: Register):
                 edges[key] = []
             edges[key] += val
 
-    g = graphviz.Digraph(get_main_stat_act(),
-                         filename=f'{get_main_stat_act()}.dot')
+    g = graphviz.Digraph(MAIN_STAT_ACT,
+                         filename=save_path)
     g.attr(compound='true')
+    # g.attr(rankdir='LR')
     # g.attr(splines='false')
 
     # merge dicts of nodes and edges for all clusters
@@ -375,7 +372,7 @@ def create_map(reg: Register):
             stat_act = split_path[0]
             dataset = split_path[1]
         else:
-            raise Exception('Unrecognised path')
+            raise Exception('Unrecognised path', path)
         sa_cluster = reg.clusters[stat_act]
         with g.subgraph(name=sa_cluster.ID) as sa:
             sa.attr(label=stat_act)
@@ -392,7 +389,8 @@ def create_map(reg: Register):
     # cover the root edges first
     if 'root' in edges.keys():
         for edge in edges.pop('root'):
-            g.edge(edge.tail, edge.head, ltail=edge.ltail, lhead=edge.lhead)
+            g.edge(edge.tail, edge.head, ltail=edge.ltail,
+                   lhead=edge.lhead, edgetooltip=edge.tooltip)
 
     for path, edge_list in edges.items():
         split_path = path.split('/')
@@ -414,17 +412,32 @@ def create_map(reg: Register):
                     d.attr(label=dataset)
                     for edge in edge_list:
                         d.edge(edge.tail, edge.head,
-                               ltail=edge.ltail, lhead=edge.lhead)
+                               ltail=edge.ltail, lhead=edge.lhead, edgetooltip=edge.tooltip)
             else:
                 for edge in edge_list:
                     sa.edge(edge.tail, edge.head,
-                            ltail=edge.ltail, lhead=edge.lhead)
+                            ltail=edge.ltail, lhead=edge.lhead, edgetooltip=edge.tooltip)
 
     g.save()
 
 
 if __name__ == "__main__":
-    tr = pd.read_csv(TASK_REPORT_PATH, encoding='unicode_escape', skiprows=4,
+    global MAIN_STAT_ACT
+
+    app = QApplication(sys.argv)
+    task_rpt_zip, _ = QFileDialog.getOpenFileName(
+        None, 'Select task report zip file...', '', '*.zip')
+    if not task_rpt_zip:
+        raise Exception('Task report zip not selected')
+
+    MAIN_STAT_ACT = pd.read_csv(
+        task_rpt_zip,
+        encoding='unicode_escape',
+        header=None,
+        skiprows=2,
+        nrows=1
+    ).iloc[0, 0].split('Statistical Activity: ')[-1].split('Mode')[0].strip()
+    tr = pd.read_csv(task_rpt_zip, encoding='unicode_escape', skiprows=4,
                      keep_default_na=False)
     # get rid of the second header line
     tr.drop([0], inplace=True)
@@ -443,6 +456,11 @@ if __name__ == "__main__":
 
     reg = Register(get_cluster_hierarchy(objs), robjs)
 
-    create_map(reg)
+    save_path, _ = QFileDialog.getSaveFileName(
+        None, 'Choose save location...', '')
+    if not save_path:
+        raise Exception('Must choose save location')
+
+    create_map(reg, save_path)
 
     # TODO sort out the / in path for copy between modes calc - change in regex?

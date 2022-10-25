@@ -1,9 +1,0 @@
-"Classification Item Groups Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Classification: CPA2008 SUT Inventories"
-
-Number,Name,Description,
-1,"Bottom level","Bottom Level"
-2,"Bottom level 01 - 43","Bottom Level products 01 - 43"
-3,"Bottom level for AN.125","Bottom Level prods exclusively for asset AN.125"
-4,"FG Products","Products selected for asset FG"
-5,"MSF Products","Products selected for asset MSF"

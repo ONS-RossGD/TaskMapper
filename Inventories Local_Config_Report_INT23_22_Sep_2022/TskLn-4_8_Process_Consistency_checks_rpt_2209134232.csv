@@ -1,7 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.8 Process Consistency checks (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"4.8.1 Consistency Check QSI Ind",TASK,N
-1,"4.8.2 Consistency Check Non-QSI",TASK,N
-2,"4.8.3 Consistency Check ABI",TASK,N

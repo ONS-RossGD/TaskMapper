@@ -1,9 +1,0 @@
-"Classification Items Report    Date: 22/09/2022 13:42:15"
-"Statistical Activity: Inventories Local    Mode: INT23    Classification: Source"
-
-Level,Code,Description,Table Header
-0,ABI,"Annual Business Inquiry","Annual Business Inquiry"
-0,QSI,"Quarterly Stocks Inquiry","Quarterly Stocks Inquiry"
-0,LOCAL,"Inventories Local","Inventories Local"
-0,DEF,"Defs from GDP(O)","Defs from GDP(O)"
-0,Other,"Neither QSI nor ABI Imported data","Neither QSI nor ABI"

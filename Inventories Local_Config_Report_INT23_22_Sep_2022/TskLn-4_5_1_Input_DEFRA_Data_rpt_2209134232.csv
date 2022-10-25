@@ -1,5 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.5.1 Input DEFRA Data (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"4.5.1.1 Copy DEFRA Data",CALCULATION DEFINITION,N

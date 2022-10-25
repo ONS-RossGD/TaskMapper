@@ -1,8 +1,0 @@
-"Classification Item Groups Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Classification: QSI Industry"
-
-Number,Name,Description,
-1,"SUT Bottom level","SUT Bottom level"
-2,"SUT Bottom level exc 02 45 46 47","SUT Bottom level excluding 02,45, 46 and 47"
-3,"SUT Bottom level exc 45 46 47","SUT Bottom level excluding 45, 46 and 47"
-4,"SUT Bottom level exc 46 47","SUT Bottom level excluding 46 and 47"

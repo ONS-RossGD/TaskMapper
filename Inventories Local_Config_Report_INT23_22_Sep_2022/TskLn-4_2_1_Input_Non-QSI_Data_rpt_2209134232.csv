@@ -1,6 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 4.2.1 Input Non-QSI Data (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"4.2.1.1 Copy Data Non-QSI Ind",CALCULATION DEFINITION,N
-1,"4.2.1.2 Copy Adj Non-QSI A1.2",CALCULATION DEFINITION,N

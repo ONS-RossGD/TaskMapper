@@ -1,6 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 5.4 Copy Unbal Inv data from 4.4 (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"5.4.1 Copy VPIC CP RP for Unbal",CALCULATION DEFINITION,N
-1,"5.4.2 copy VPIC CP AQ Unbal",CALCULATION DEFINITION,N

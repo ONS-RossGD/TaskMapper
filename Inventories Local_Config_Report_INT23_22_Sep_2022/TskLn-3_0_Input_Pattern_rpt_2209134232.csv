@@ -1,6 +1,0 @@
-"Task Lines Report    Date: 22/09/2022 13:42:32"
-"Statistical Activity: Inventories Local    Mode: INT23    Task: 3.0 Input Pattern (Not Parallel)"
-
-Order No.,Name,Type,Is Line Parallel
-0,"3.1.1 Del 3.1 prev run data",CALCULATION DEFINITION,N
-1,"3.2.1 Pattern Sector Industry",TIMESERIES IMPORT DEFINITION,N
