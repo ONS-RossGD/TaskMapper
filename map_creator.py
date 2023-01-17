@@ -283,6 +283,8 @@ def convert_objects(tr: pd.DataFrame) -> pd.DataFrame():
         """Convert the awkwardly formatted CORD strings to a json string and
         returns the json as a dict"""
         s = s.replace("'", "")
+        # fix because top level specification is allowed to be blank
+        s = re.sub('({top level specification = )(})', r'\1n/a\2', s)
         s = re.sub('{([^{}]+) = ([^{}]+)}', r'"\1": "\2"', s)
         s = re.sub(
             '{.*?->(.*?[^ ]*?)\"classification mapping\": \"(.*?)\"}', r'{\2->\1}', s)

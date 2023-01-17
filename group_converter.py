@@ -4,7 +4,7 @@ from typing import List, Tuple
 import pandas as pd
 from glob import glob
 
-CONFIG_FILE_PATH = r'Inventories Local_Config_Report_INT23_22_Sep_2022'
+CONFIG_FILE_PATH = r'INPUTS\Inventories Local_Config_Report_INT23_22_Sep_2022'
 
 
 def group_paths() -> List:
